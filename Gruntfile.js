@@ -2,6 +2,7 @@ module.exports = function(grunt) {
 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-mocha-test');
 
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
@@ -11,9 +12,14 @@ module.exports = function(grunt) {
 			models: 'models/*.js',
 			all: [ 'routes/*.js', 'tests/*.js', 'models/*.js', 'app.js' ]
 		},
+		mochaTest: {
+			test: {
+				src: 'tests/**/*.js'
+			}
+		},
 		watch: {
 			files: '**/*.js',
-			tasks: [ 'jshint:all' ]
+			tasks: [ 'mochaTest', 'jshint:all' ]
 		}
 	} );
 
