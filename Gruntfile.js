@@ -19,8 +19,10 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			files: '**/*.js',
-			tasks: [ 'mochaTest', 'jshint:all' ]
+			tasks: 'test'
 		}
 	} );
+
+	grunt.registerTask( 'test', [ 'mochaTest', 'jshint:all' ] );
 
 };

@@ -10,4 +10,13 @@ describe( 'ideas api' , function () {
 				done();
 			} );
 	} );
+
+	it( 'should return an idea id', function ( done ) {
+		superagent
+			.get( 'http://localhost:3000/ideas' )
+			.end( function ( e, res ) {
+				expect( res.body[0] ).to.have.property( '_id' );
+				done();
+			} );
+	} );
 } );
