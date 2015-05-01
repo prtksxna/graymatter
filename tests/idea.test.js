@@ -1,7 +1,7 @@
 var superagent = require('superagent');
 var expect = require('expect.js');
 
-describe( 'ideas api' , function () {
+describe( 'Ideas API' , function () {
 	it( 'should return an array of all ideas', function( done ) {
 		superagent
 			.get( 'http://localhost:3000/ideas' )
