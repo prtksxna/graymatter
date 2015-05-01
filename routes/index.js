@@ -5,6 +5,7 @@ var mongoose = require( 'mongoose' );
 var Idea = mongoose.model( 'Idea' );
 var Vote = mongoose.model( 'Vote' );
 
+
 /* GET home page. */
 router.get( '/', function ( req, res, next ) {
 	res.render( 'index', {
@@ -52,6 +53,16 @@ router.param( 'idea', function( req, res, next, id ) {
 
 router.get( '/ideas/:idea', function( req, res, next ) {
 	res.json( req.idea );
+} );
+
+router.post( '/register', function( req, res, next ) {
+	if( !req.body.username || !req.body.password ){
+		return res
+			.status( 400 )
+			.json( {
+				message: 'Please fill out all fields'
+			} );
+	}
 } );
 
 module.exports = router;

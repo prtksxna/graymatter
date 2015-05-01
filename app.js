@@ -7,6 +7,10 @@ var bodyParser = require( 'body-parser' );
 var mongoose = require( 'mongoose' );
 require( './models/idea' );
 require( './models/vote' );
+require( './models/user' );
+var passport = require('passport');
+require('./config/passport');
+
 
 var routes = require( './routes/index' );
 var users = require( './routes/users' );
@@ -25,9 +29,9 @@ app.use( bodyParser.json() );
 app.use( bodyParser.urlencoded({ extended: false }));
 app.use( cookieParser() );
 app.use( express.static( path.join( __dirname, 'public' ) ) );
+app.use( passport.initialize() );
 
 app.use( '/', routes );
-app.use( '/users', users );
 
 // catch 404 and forward to error handler
 app.use( function( req, res, next ) {

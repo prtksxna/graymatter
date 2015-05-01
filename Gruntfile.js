@@ -10,7 +10,7 @@ module.exports = function(grunt) {
 			routes: 'routes/*.js',
 			tests: 'tests/*.js',
 			models: 'models/*.js',
-			all: [ 'routes/*.js', 'tests/*.js', 'models/*.js', 'app.js' ]
+			all: [ 'config/*.js', 'routes/*.js', 'tests/*.js', 'models/*.js', 'app.js' ]
 		},
 		mochaTest: {
 			test: {
