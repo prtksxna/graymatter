@@ -4,6 +4,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-mocha-test');
 	grunt.loadNpmTasks('grunt-express-server');
+	grunt.loadNpmTasks('grunt-docco');
 
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
@@ -26,9 +27,17 @@ module.exports = function(grunt) {
 				src: 'tests/**/*.js'
 			}
 		},
+		docco: {
+			api: {
+				src: 'routes/**/*.js',
+				options: {
+					output: 'docs/'
+				}
+			}
+		},
 		watch: {
 			files: '**/*.js',
-			tasks: [ 'express:dev', 'test' ]
+			tasks: [ 'express:dev', 'test', 'docco:api' ]
 		}
 	} );
 

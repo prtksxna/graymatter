@@ -10,12 +10,16 @@ $ mongod
 $ node ./bin/www
 ```
 
-See the mocha tests to understand how to use the API.
+To generate the API's documentation, run-
+
+```
+$ grunt docco:api
+```
 
 
 ## Development
 
-For development, run `grunt watch`. It reloads the server if any changes are made, and runs mocha tests and jslint.
+For development, run `grunt watch`. It reloads the server if any changes are made, runs mocha tests and jslint, and generates documentation.
 
 
 ## Directory structure
