@@ -19,7 +19,9 @@ app.use( logger( 'dev' ) );
 app.use( bodyParser.json() );
 app.use( bodyParser.urlencoded({ extended: false }));
 app.use( passport.initialize() );
+
 app.use( '/', routes );
+app.use( '/users', users );
 
 
 // Error Handling
