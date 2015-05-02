@@ -14,7 +14,7 @@ var User = mongoose.model( 'User' );
 // ```
 // {
 //   email: 'bob@example.com',
-//   password: '123456'
+//   password: '12345678'
 // }
 // ```
 router.post( '/new', function( req, res, next ) {

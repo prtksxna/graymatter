@@ -16,6 +16,23 @@ describe( 'Users API', function () {
 		} );
 	} );
 
+	describe( 'Registration', function () {
+
+		it( 'should let a user register with email and password', function (done ) {
+			superagent
+				.post( 'http://localhost:3000/users/new' )
+				.send( { email: 'bob@example.com', password: '12345678' } )
+				.end( function ( e, res ) {
+					expect( res.status ).to.be( 201 );
+					expect( res.body ).to.have.property( 'message' );
+					done();
+				} );
+		} );
+
+		it( 'should let a user register with Google' );
+
+	} );
+
 	describe( 'Registering validations', function () {
 
 		it ( 'should return an error (400/bad request) if there is no email', function ( done ) {
@@ -64,24 +81,17 @@ describe( 'Users API', function () {
 				} );
 		} );
 
-		it ( 'should check if the email id is unique' );
-
-	} );
-
-	describe( 'Registration', function () {
-
-		it( 'should let a user register with email and password', function (done ) {
+		it ( 'should check if the email id is unique', function (done ) {
+			// Retrying with the same email ID as used in the previous test set
 			superagent
 				.post( 'http://localhost:3000/users/new' )
 				.send( { email: 'bob@example.com', password: '12345678' } )
 				.end( function ( e, res ) {
-					expect( res.status ).to.be( 201 );
+					expect( res.status ).to.be( 400 );
 					expect( res.body ).to.have.property( 'message' );
 					done();
 				} );
 		} );
-
-		it( 'should let a user register with Google' );
 
 	} );
 } );
