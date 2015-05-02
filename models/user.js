@@ -34,4 +34,10 @@ UserSchema.methods.generateJWT = function () {
 	}, 'TODO: SECRET' );
 };
 
+UserSchema.path( 'email' ).validate( function ( email ) {
+	// TODO: Check this regular expression
+	var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+	return emailRegex.test( email );
+}, 'Invalid email' );
+
 mongoose.model( 'User', UserSchema );
