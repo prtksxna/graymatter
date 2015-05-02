@@ -3,9 +3,18 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-mocha-test');
+	grunt.loadNpmTasks('grunt-express-server');
 
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
+		express: {
+			dev: {
+				options: {
+					delay: 1000,
+					script: './bin/www'
+				}
+			}
+		},
 		jshint: {
 			routes: 'routes/*.js',
 			tests: 'tests/*.js',
@@ -19,7 +28,7 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			files: '**/*.js',
-			tasks: 'test'
+			tasks: [ 'express:dev', 'test' ]
 		}
 	} );
 
