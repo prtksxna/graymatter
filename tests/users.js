@@ -1,7 +1,20 @@
 var superagent = require('superagent');
 var expect = require('expect.js');
 
+var mongoose = require( 'mongoose' );
+mongoose.connect( 'mongodb://localhost/graymatter' );
+require( '../models/user' );
+var User = mongoose.model('User');
+
 describe( 'Users API', function () {
+
+	before( function ( done ) {
+		console.log( '  > Looking for test user - bob@example.com' );
+		User.remove( { email: 'bob@example.com' }, function ( err, user ) {
+			console.log( '  > Removed test user - bob@example.com' );
+			done();
+		} );
+	} );
 
 	describe( 'Registering validations', function () {
 
@@ -51,11 +64,23 @@ describe( 'Users API', function () {
 				} );
 		} );
 
+		it ( 'should check if the email id is unique' );
+
 	} );
 
 	describe( 'Registration', function () {
 
-		it( 'should let a user register with email and password' );
+		it( 'should let a user register with email and password', function (done ) {
+			superagent
+				.post( 'http://localhost:3000/users/new' )
+				.send( { email: 'bob@example.com', password: '12345678' } )
+				.end( function ( e, res ) {
+					expect( res.status ).to.be( 201 );
+					expect( res.body ).to.have.property( 'message' );
+					done();
+				} );
+		} );
+
 		it( 'should let a user register with Google' );
 
 	} );

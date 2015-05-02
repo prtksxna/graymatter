@@ -4,9 +4,8 @@ var logger = require( 'morgan' );
 var bodyParser = require( 'body-parser' );
 
 var mongoose = require( 'mongoose' );
-require( './models/user' );
-
 mongoose.connect( 'mongodb://localhost/graymatter' );
+require( './models/user' );
 
 var passport = require('passport');
 require('./config/passport');

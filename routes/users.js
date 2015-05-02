@@ -9,7 +9,8 @@ var User = mongoose.model( 'User' );
 
 
 // ## New User
-// `POST` email and password in JSON to `/users/new`/ to create a new user.
+
+// **POST: /users/new**
 // ```
 // {
 //   email: 'bob@example.com',
@@ -17,6 +18,8 @@ var User = mongoose.model( 'User' );
 // }
 // ```
 router.post( '/new', function( req, res, next ) {
+	// > TODO: Fix scattered validations
+
 	// It will return a `400` if either of them is missing.
 	if( !req.body.email || !req.body.password ){
 		return res
@@ -28,7 +31,6 @@ router.post( '/new', function( req, res, next ) {
 
 	// Validation for the password happens in the router as password isn't part
 	// of the UserSchema.
-	// > TODO: Fix the fact the validations are scattered
 	if ( req.body.password.length < 8 ) {
 		return res
 			.status( 400 )
@@ -56,13 +58,32 @@ router.post( '/new', function( req, res, next ) {
 					.status( 400 )
 					.json( err );
 			}
+
+
+			// `E11000`: Check if a user with that email already exists
+			if ( err.message.indexOf( 'E11000' ) > -1 ) {
+				return res
+					.status( 400 )
+					.json( {
+						message: 'User validation failed',
+						errors: {
+							email: {
+								message: 'User with this email ID already exists',
+								value: req.body.email
+							}
+						}
+					} );
+
+			}
 			return next( err );
 		}
 
-		// Generate and return a JWT.
-		return res.json( {
-			token: user.generateJWT()
-		} );
+		// Return `201`: Resource created.
+		return res
+			.status( 201 )
+			.json( {
+				message: 'User created'
+			} );
 	} );
 } );
 
