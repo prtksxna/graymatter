@@ -2,13 +2,17 @@ var superagent = require('superagent');
 var expect = require('expect.js');
 
 var mongoose = require( 'mongoose' );
-mongoose.connect( 'mongodb://localhost/graymatter' );
 require( '../models/user' );
 var User = mongoose.model('User');
 
 describe( 'Users API', function () {
 
 	before( function ( done ) {
+		mongoose.connect( 'mongodb://localhost/graymatter', function ( error ) {
+			if ( error ) {
+				throw error;
+			}
+		} );
 		console.log( '  > Looking for test user - bob@example.com' );
 		User.remove( { email: 'bob@example.com' }, function ( err, user ) {
 			console.log( '  > Removed test user - bob@example.com' );
@@ -93,5 +97,10 @@ describe( 'Users API', function () {
 				} );
 		} );
 
+	} );
+
+	after( function ( done ) {
+		mongoose.disconnect();
+		done();
 	} );
 } );
