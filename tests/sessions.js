@@ -12,6 +12,7 @@ describe( 'Sessions API', function () {
 			if ( error ) {
 				throw error;
 			}
+			// TODO: Setup the right accounts for testing
 			done();
 		} );
 	} );
@@ -51,6 +52,16 @@ describe( 'Sessions API', function () {
 				} );
 		} );
 
+		it( 'should not let the user login with an incorrect password', function ( done ) {
+			superagent
+				.post( 'http://localhost:3000/sessions/new' )
+				.send( { email: 'bob@example.com', password: 123456789 } )
+				.end( function ( e, res ) {
+					expect( res.status ).to.be( 400 );
+					expect( res.body ).to.have.property( 'message' );
+					done();
+				} );
+		} );
 	} );
 
 	it( 'should let the user login' );/*, function ( done ) {

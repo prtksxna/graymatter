@@ -41,6 +41,15 @@ router.post( '/new', function ( req, res, next ) {
 				} );
 		}
 
+		// Check if the password is valid
+		if ( !user.validPassword( req.body.password ) ) {
+			return res
+				.status( 400 )
+				.json( {
+					message: 'Incorrect password'
+				} );
+		}
+
 		return res
 			.json( user );
 	} );
