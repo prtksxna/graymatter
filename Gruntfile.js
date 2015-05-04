@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks("grunt-jscs");
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-mocha-test');
 	grunt.loadNpmTasks('grunt-express-server');
@@ -22,6 +23,15 @@ module.exports = function(grunt) {
 			models: 'models/*.js',
 			all: [ 'config/*.js', 'routes/*.js', 'tests/*.js', 'models/*.js', 'app.js' ]
 		},
+		jscs: {
+			routes: 'routes/*.js',
+			tests: 'tests/*.js',
+			models: 'models/*.js',
+			all: [ 'config/*.js', 'routes/*.js', 'tests/*.js', 'models/*.js', 'app.js' ],
+			options: {
+				config: ".jscsrc"
+			}
+		},
 		mochaTest: {
 			test: {
 				src: 'tests/**/*.js'
@@ -41,6 +51,6 @@ module.exports = function(grunt) {
 		}
 	} );
 
-	grunt.registerTask( 'test', [ 'mochaTest', 'jshint:all' ] );
+	grunt.registerTask( 'test', [ 'mochaTest', 'jshint:all', 'jscs:all' ] );
 
 };
