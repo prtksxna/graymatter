@@ -26,8 +26,21 @@ router.post( '/new', function ( req, res, next ) {
 			} );
 	}
 
-	User.findOne( { email: req.body.email, password: req.body.password }, function ( err, user ) {
-		console.log( user );
+	// Find a user with that email
+	User.findOne( { email: req.body.email }, function ( err, user ) {
+		if ( err ) {
+			next( err );
+		}
+
+		// It will return a `400` is there is no user with this email
+		if ( user === null ) {
+			return res
+				.status( 400 )
+				.json( {
+					message: 'No user with these details'
+				} );
+		}
+
 		return res
 			.json( user );
 	} );

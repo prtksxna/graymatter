@@ -40,7 +40,16 @@ describe( 'Sessions API', function () {
 				} );
 		} );
 
-		it( 'should not let a user login if it doesn\'t exist' );
+		it( 'should not let a user login if it doesn\'t exist', function ( done ) {
+			superagent
+				.post( 'http://localhost:3000/sessions/new' )
+				.send( { email: 'notbob@example.com', password: 12345678 } )
+				.end( function ( e, res ) {
+					expect( res.status ).to.be( 400 );
+					expect( res.body ).to.have.property( 'message' );
+					done();
+				} );
+		} );
 
 	} );
 
