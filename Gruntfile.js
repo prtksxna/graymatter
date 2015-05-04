@@ -48,10 +48,10 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			files: '**/*.js',
-			tasks: [ 'express:dev', 'test', 'docco:api' ],
+			tasks: [ 'test', 'docco:api' ],
 		}
 	} );
 
-	grunt.registerTask( 'test', [ 'mochaTest', 'jshint:all', 'jscs:all' ] );
+	grunt.registerTask( 'test', [ 'express:dev', 'mochaTest', 'jshint:all', 'jscs:all' ] );
 
 };
