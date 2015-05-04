@@ -48,6 +48,11 @@ module.exports = function ( grunt ) {
 			}
 		},
 		watch: {
+			options: {
+				// Prevent grunt from taking up all CPU
+				// http://git.io/vJwSS and http://git.io/AF4m
+				interval: 5007
+			},
 			files: '**/*.js',
 			tasks: [ 'test', 'docco:api' ]
 		},
