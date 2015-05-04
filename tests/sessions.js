@@ -16,9 +16,33 @@ describe( 'Sessions API', function () {
 		} );
 	} );
 
-	it( 'should not let a user login without email' );
-	it( 'should not let a user login without password' );
-	it( 'should not let a user login if it doesn\'t exist' );
+	describe( 'Login Validations', function () {
+
+		it( 'should not let a user login without email', function ( done ) {
+			superagent
+				.post( 'http://localhost:3000/sessions/new' )
+				.send( { password: 12345678 } )
+				.end( function ( e, res ) {
+					expect( res.status ).to.be( 400 );
+					expect( res.body ).to.have.property( 'message' );
+					done();
+				} );
+		} );
+
+		it( 'should not let a user login without password', function ( done ) {
+			superagent
+				.post( 'http://localhost:3000/sessions/new' )
+				.send( { email: 'bob@example.com' } )
+				.end( function ( e, res ) {
+					expect( res.status ).to.be( 400 );
+					expect( res.body ).to.have.property( 'message' );
+					done();
+				} );
+		} );
+
+		it( 'should not let a user login if it doesn\'t exist' );
+
+	} );
 
 	it( 'should let the user login' );/*, function ( done ) {
 		// TODO: Store the localhost URL part somewhere, DRY!
