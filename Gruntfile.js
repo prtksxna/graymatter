@@ -6,6 +6,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-mocha-test');
 	grunt.loadNpmTasks('grunt-express-server');
 	grunt.loadNpmTasks('grunt-docco');
+	grunt.loadNpmTasks('grunt-githooks');
 
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
@@ -49,6 +50,11 @@ module.exports = function(grunt) {
 		watch: {
 			files: '**/*.js',
 			tasks: [ 'test', 'docco:api' ],
+		},
+		githooks: {
+			all: {
+				'pre-commit': 'test',
+			}
 		}
 	} );
 

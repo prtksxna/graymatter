@@ -20,6 +20,7 @@ $ grunt docco:api
 ## Development
 
 For development, run `grunt watch`. It reloads the server if any changes are made, runs mocha tests and jslint, and generates documentation.
+Run `grunt githooks` to set up a pre-commit hook that will test everything before you can commit it.
 
 
 ## Directory structure
