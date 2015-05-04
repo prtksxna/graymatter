@@ -1,12 +1,13 @@
-var mongoose = require( 'mongoose' );
-var crypto = require( 'crypto' );
-var jwt = require( 'jsonwebtoken' );
+var UserSchema,
+	mongoose = require( 'mongoose' ),
+	crypto = require( 'crypto' ),
+	jwt = require( 'jsonwebtoken' );
 
-var UserSchema = new mongoose.Schema( {
+UserSchema = new mongoose.Schema( {
 	email: {
 		type: String,
 		lowercase: true,
-		unique: true,
+		unique: true
 	},
 	hash: String,
 	salt: String
@@ -23,8 +24,9 @@ UserSchema.methods.validPassword = function ( password ) {
 };
 
 UserSchema.methods.generateJWT = function () {
-	var today = new Date();
-	var exp = new Date( today );
+	var
+		today = new Date(),
+		exp = new Date( today );
 	exp.setDate( today.getDate() + 60 );
 
 	return jwt.sign( {

@@ -29,7 +29,8 @@ module.exports = function(grunt) {
 			models: 'models/*.js',
 			all: [ 'config/*.js', 'routes/*.js', 'tests/*.js', 'models/*.js', 'app.js' ],
 			options: {
-				config: ".jscsrc"
+				config: ".jscsrc",
+				disallowDanglingUnderscores: null
 			}
 		},
 		mochaTest: {
@@ -47,7 +48,7 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			files: '**/*.js',
-			tasks: [ 'express:dev', 'test', 'docco:api' ]
+			tasks: [ 'express:dev', 'test', 'docco:api' ],
 		}
 	} );
 
