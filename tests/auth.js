@@ -1,9 +1,9 @@
-var superagent = require('superagent');
-var expect = require('expect.js');
-
-var mongoose = require( 'mongoose' );
 require( '../models/user' );
-var User = mongoose.model('User');
+
+var superagent = require('superagent'),
+	expect = require('expect.js'),
+	mongoose = require( 'mongoose' ),
+	User = mongoose.model('User');
 
 describe( 'Sessions API', function () {
 
