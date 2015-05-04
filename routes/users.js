@@ -1,12 +1,11 @@
 // *Attached to `/users`*
 
-var express = require('express');
-var router = express.Router();
-var mongoose = require( 'mongoose' );
-var passport = require( 'passport' );
-var User = mongoose.model( 'User' );
-
-
+var
+	express = require('express'),
+	router = express.Router(),
+	mongoose = require( 'mongoose' ),
+	passport = require( 'passport' ),
+	User = mongoose.model( 'User' );
 
 // ## New User
 
@@ -17,11 +16,11 @@ var User = mongoose.model( 'User' );
 //   password: '12345678'
 // }
 // ```
-router.post( '/new', function( req, res, next ) {
+router.post( '/new', function ( req, res, next ) {
 	// > TODO: Fix scattered validations
 
 	// It will return a `400` if either of them is missing.
-	if( !req.body.email || !req.body.password ){
+	if ( !req.body.email || !req.body.password ) {
 		return res
 			.status( 400 )
 			.json( {
@@ -50,15 +49,14 @@ router.post( '/new', function( req, res, next ) {
 	user.email = req.body.email;
 	user.setPassword( req.body.password );
 
-	user.save( function( err ) {
+	user.save( function p( err ) {
 		if ( err ) {
 			// Check if the error is a ValidationError and send it as is in case it is.
-			if ( err.name === "ValidationError" ) {
+			if ( err.name === 'ValidationError' ) {
 				return res
 					.status( 400 )
 					.json( err );
 			}
-
 
 			// `E11000`: Check if a user with that email already exists
 			if ( err.message.indexOf( 'E11000' ) > -1 ) {
