@@ -1,12 +1,12 @@
-module.exports = function(grunt) {
+module.exports = function ( grunt ) {
 
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks("grunt-jscs");
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-mocha-test');
-	grunt.loadNpmTasks('grunt-express-server');
-	grunt.loadNpmTasks('grunt-docco');
-	grunt.loadNpmTasks('grunt-githooks');
+	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
+	grunt.loadNpmTasks( 'grunt-jscs' );
+	grunt.loadNpmTasks( 'grunt-contrib-watch' );
+	grunt.loadNpmTasks( 'grunt-mocha-test' );
+	grunt.loadNpmTasks( 'grunt-express-server' );
+	grunt.loadNpmTasks( 'grunt-docco' );
+	grunt.loadNpmTasks( 'grunt-githooks' );
 
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
@@ -22,15 +22,15 @@ module.exports = function(grunt) {
 			routes: 'routes/*.js',
 			tests: 'tests/*.js',
 			models: 'models/*.js',
-			all: [ 'config/*.js', 'routes/*.js', 'tests/*.js', 'models/*.js', 'app.js' ]
+			all: [ 'config/*.js', 'routes/*.js', 'tests/*.js', 'models/*.js', 'app.js', 'Gruntfile.js' ]
 		},
 		jscs: {
 			routes: 'routes/*.js',
 			tests: 'tests/*.js',
 			models: 'models/*.js',
-			all: [ 'config/*.js', 'routes/*.js', 'tests/*.js', 'models/*.js', 'app.js' ],
+			all: [ 'config/*.js', 'routes/*.js', 'tests/*.js', 'models/*.js', 'app.js', 'Gruntfile.js' ],
 			options: {
-				config: ".jscsrc",
+				config: '.jscsrc',
 				disallowDanglingUnderscores: null
 			}
 		},
@@ -49,11 +49,11 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			files: '**/*.js',
-			tasks: [ 'test', 'docco:api' ],
+			tasks: [ 'test', 'docco:api' ]
 		},
 		githooks: {
 			all: {
-				'pre-commit': 'test',
+				'pre-commit': 'test'
 			}
 		}
 	} );
