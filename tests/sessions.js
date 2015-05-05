@@ -78,8 +78,9 @@ describe( 'Sessions API', function () {
 	} );*/
 
 	after( function ( done ) {
-		mongoose.disconnect();
-		done();
+		mongoose.disconnect( function () {
+			done();
+		} );
 	} );
 
 } );
