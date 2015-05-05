@@ -14,8 +14,18 @@ describe( 'Sessions API', function () {
 			if ( error ) {
 				throw error;
 			}
-			// TODO: Setup the right accounts for testing
-			done();
+
+			console.log( '  > Creating test user - bob@example.com' );
+			var user = new User();
+			user.email = 'bob@example.com';
+			user.setPassword( '12345678' );
+			user.save( function ( err ) {
+				if ( err ) {
+					throw( err );
+				}
+				console.log( '  > Done!' );
+				done();
+			} );
 		} );
 	} );
 
@@ -82,8 +92,12 @@ describe( 'Sessions API', function () {
 	} );*/
 
 	after( function ( done ) {
-		mongoose.disconnect( function () {
-			done();
+		console.log( '  > Looking for test user - bob@example.com' );
+		User.remove( { email: 'bob@example.com' }, function ( err, user ) {
+			console.log( '  > Removed test user - bob@example.com' );
+			mongoose.disconnect( function () {
+				done();
+			} );
 		} );
 	} );
 
