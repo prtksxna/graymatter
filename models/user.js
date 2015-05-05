@@ -19,6 +19,9 @@ UserSchema.methods.setPassword = function ( password ) {
 };
 
 UserSchema.methods.validPassword = function ( password ) {
+	// Just to be safe, also the tests use 12345678 as password
+	password = password.toString();
+
 	var hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
 	return this.hash === hash;
 };

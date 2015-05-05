@@ -67,7 +67,7 @@ describe( 'Sessions API', function () {
 				} );
 		} );
 
-		it( 'should not let the user login with an incorrect password' );/*, function ( done ) {
+		it( 'should not let the user login with an incorrect password', function ( done ) {
 			superagent
 				.post( testUrl + 'new' )
 				.send( { email: 'bob@example.com', password: 123456789 } )
@@ -77,7 +77,7 @@ describe( 'Sessions API', function () {
 					expect( res.body.message ).to.be( 'Incorrect password' );
 					done();
 				} );
-		} );*/
+		} );
 	} );
 
 	it( 'should let the user login' );/*, function ( done ) {
