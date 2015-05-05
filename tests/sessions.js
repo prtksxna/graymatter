@@ -3,12 +3,14 @@ require( '../models/user' );
 var superagent = require('superagent'),
 	expect = require('expect.js'),
 	mongoose = require( 'mongoose' ),
-	User = mongoose.model('User');
+	User = mongoose.model('User'),
+	config = require( '../config/config.js'),
+	testUrl = config.dev.api + 'sessions/';
 
 describe( 'Sessions API', function () {
 
 	before( function ( done ) {
-		mongoose.connect( 'mongodb://localhost/graymatter', function ( error ) {
+		mongoose.connect( config.dev.db, function ( error ) {
 			if ( error ) {
 				throw error;
 			}
@@ -21,7 +23,7 @@ describe( 'Sessions API', function () {
 
 		it( 'should not let a user login without email', function ( done ) {
 			superagent
-				.post( 'http://localhost:3000/sessions/new' )
+				.post( testUrl + 'new' )
 				.send( { password: 12345678 } )
 				.end( function ( e, res ) {
 					expect( res.status ).to.be( 400 );
@@ -32,7 +34,7 @@ describe( 'Sessions API', function () {
 
 		it( 'should not let a user login without password', function ( done ) {
 			superagent
-				.post( 'http://localhost:3000/sessions/new' )
+				.post( testUrl + 'new' )
 				.send( { email: 'bob@example.com' } )
 				.end( function ( e, res ) {
 					expect( res.status ).to.be( 400 );
@@ -43,7 +45,7 @@ describe( 'Sessions API', function () {
 
 		it( 'should not let a user login if it doesn\'t exist', function ( done ) {
 			superagent
-				.post( 'http://localhost:3000/sessions/new' )
+				.post( testUrl + 'new' )
 				.send( { email: 'notbob@example.com', password: 12345678 } )
 				.end( function ( e, res ) {
 					expect( res.status ).to.be( 400 );
@@ -54,7 +56,7 @@ describe( 'Sessions API', function () {
 
 		it( 'should not let the user login with an incorrect password', function ( done ) {
 			superagent
-				.post( 'http://localhost:3000/sessions/new' )
+				.post( testUrl + 'new' )
 				.send( { email: 'bob@example.com', password: 123456789 } )
 				.end( function ( e, res ) {
 					expect( res.status ).to.be( 400 );
@@ -65,9 +67,8 @@ describe( 'Sessions API', function () {
 	} );
 
 	it( 'should let the user login' );/*, function ( done ) {
-		// TODO: Store the localhost URL part somewhere, DRY!
 		superagent
-			.post( 'http://localhost:3000/sessions/new' )
+			.post( testUrl + 'new' )
 			.send( { email: 'bob@example.com', password: '12345678' } )
 			.end( function ( e, res ) {
 				expect( res.status ).to.be( 200 );

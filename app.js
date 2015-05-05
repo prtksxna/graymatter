@@ -11,9 +11,11 @@ var
 	routes = require( './routes/index' ),
 	users = require( './routes/users' ),
 	sessions = require( './routes/sessions' ),
+	config = require( './config/config.js' ),
 	app = express();
 
-mongoose.connect( 'mongodb://localhost/graymatter' );
+// TODO: How would we handle this in prod?
+mongoose.connect( config.dev.db );
 
 app.use( logger( 'dev' ) );
 app.use( bodyParser.json() );
