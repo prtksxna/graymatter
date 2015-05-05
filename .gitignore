@@ -1,5 +1,14 @@
+# Node
 node_modules/
-docs/
-*~
-.DS_Store
 npm-debug.log
+
+# Project
+docs/
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# Mac OS
+.DS_Store
