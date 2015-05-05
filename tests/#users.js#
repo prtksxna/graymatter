@@ -106,7 +106,6 @@ describe( 'Users API', function () {
 		console.log( '  > Looking for test user - bob@example.com' );
 		User.remove( { email: 'bob@example.com' }, function ( err, user ) {
 			console.log( '  > Removed test user - bob@example.com' );
-
 			mongoose.disconnect( function () {
 				done();
 			} );
