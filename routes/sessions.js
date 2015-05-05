@@ -50,6 +50,7 @@ router.post( '/new', function ( req, res, next ) {
 				} );
 		}
 
+		// > TODO: Return a JWT
 		return res
 			.json( user );
 	} );

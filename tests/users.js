@@ -49,6 +49,7 @@ describe( 'Users API', function () {
 				.end( function ( e, res ) {
 					expect( res.status ).to.be( 400 );
 					expect( res.body ).to.have.property( 'message' );
+					expect( res.body.message ).to.be( 'Please fill out all fields' );
 					done();
 				} );
 		} );
@@ -60,6 +61,7 @@ describe( 'Users API', function () {
 				.end( function ( e, res ) {
 					expect( res.status ).to.be( 400 );
 					expect( res.body ).to.have.property( 'message' );
+					expect( res.body.message ).to.be( 'Please fill out all fields' );
 					done();
 				} );
 		} );
@@ -72,6 +74,8 @@ describe( 'Users API', function () {
 					expect( res.status ).to.be( 400 );
 					expect( res.body ).to.have.property( 'message' );
 					expect( res.body ).to.have.property( 'errors' );
+					expect( res.body.message ).to.be( 'User validation failed' );
+					expect( res.body.errors.email.message ).to.be( 'Invalid email' );
 					done();
 				} );
 		} );
@@ -84,6 +88,8 @@ describe( 'Users API', function () {
 					expect( res.status ).to.be( 400 );
 					expect( res.body ).to.have.property( 'message' );
 					expect( res.body ).to.have.property( 'errors' );
+					expect( res.body.message ).to.be( 'User validation failed' );
+					expect( res.body.errors.password.message ).to.be( 'Password too short, must be 8 characters' );
 					done();
 				} );
 		} );
@@ -96,6 +102,8 @@ describe( 'Users API', function () {
 				.end( function ( e, res ) {
 					expect( res.status ).to.be( 400 );
 					expect( res.body ).to.have.property( 'message' );
+					expect( res.body.message ).to.be( 'User validation failed' );
+					expect( res.body.errors.email.message ).to.be( 'User with this email ID already exists' );
 					done();
 				} );
 		} );
@@ -106,7 +114,6 @@ describe( 'Users API', function () {
 		console.log( '  > Looking for test user - bob@example.com' );
 		User.remove( { email: 'bob@example.com' }, function ( err, user ) {
 			console.log( '  > Removed test user - bob@example.com' );
-
 			mongoose.disconnect( function () {
 				done();
 			} );
