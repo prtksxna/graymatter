@@ -29,9 +29,20 @@ describe( 'Sessions API', function () {
 		} );
 	} );
 
+	it( 'should let the user login', function ( done ) {
+		superagent
+			.post( testUrl + 'new' )
+			.send( { email: 'bob@example.com', password: '12345678' } )
+			.end( function ( e, res ) {
+				expect( res.status ).to.be( 200 );
+				expect( res.body ).to.have.property( 'token' );
+				done();
+			} );
+	} );
+
 	describe( 'Login Validations', function () {
 
-		it( 'should not let a user login without email', function ( done ) {
+		it( '400: should not let a user login without email', function ( done ) {
 			superagent
 				.post( testUrl + 'new' )
 				.send( { password: 12345678 } )
@@ -43,7 +54,7 @@ describe( 'Sessions API', function () {
 				} );
 		} );
 
-		it( 'should not let a user login without password', function ( done ) {
+		it( '400: should not let a user login without password', function ( done ) {
 			superagent
 				.post( testUrl + 'new' )
 				.send( { email: 'bob@example.com' } )
@@ -55,41 +66,30 @@ describe( 'Sessions API', function () {
 				} );
 		} );
 
-		it( 'should not let a user login if it doesn\'t exist', function ( done ) {
+		it( '401: should not let a user login if it doesn\'t exist', function ( done ) {
 			superagent
 				.post( testUrl + 'new' )
 				.send( { email: 'notbob@example.com', password: 12345678 } )
 				.end( function ( e, res ) {
-					expect( res.status ).to.be( 400 );
+					expect( res.status ).to.be( 401 );
 					expect( res.body ).to.have.property( 'message' );
-					expect( res.body.message ).to.be( 'No user with these details' );
+					expect( res.body.message ).to.be( 'Incorrect email.' );
 					done();
 				} );
 		} );
 
-		it( 'should not let the user login with an incorrect password', function ( done ) {
+		it( '401: should not let the user login with an incorrect password', function ( done ) {
 			superagent
 				.post( testUrl + 'new' )
 				.send( { email: 'bob@example.com', password: 123456789 } )
 				.end( function ( e, res ) {
-					expect( res.status ).to.be( 400 );
+					expect( res.status ).to.be( 401 );
 					expect( res.body ).to.have.property( 'message' );
-					expect( res.body.message ).to.be( 'Incorrect password' );
+					expect( res.body.message ).to.be( 'Incorrect password.' );
 					done();
 				} );
 		} );
 	} );
-
-	it( 'should let the user login' );/*, function ( done ) {
-		superagent
-			.post( testUrl + 'new' )
-			.send( { email: 'bob@example.com', password: '12345678' } )
-			.end( function ( e, res ) {
-				expect( res.status ).to.be( 200 );
-				expect( res.body ).to.have.property( 'token' );
-				done();
-			} );
-	} );*/
 
 	after( function ( done ) {
 		console.log( '  > Looking for test user - bob@example.com' );

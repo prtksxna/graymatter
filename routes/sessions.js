@@ -26,34 +26,22 @@ router.post( '/new', function ( req, res, next ) {
 			} );
 	}
 
-	// Find a user with that email
-	User.findOne( { email: req.body.email }, function ( err, user ) {
+	// Use Passport to authenticate
+	passport.authenticate( 'local', function ( err, user, info ) {
 		if ( err ) {
 			next( err );
 		}
 
-		// It will return a `400` is there is no user with this email
-		if ( user === null ) {
+		if ( user ) {
+			return res.json( {
+				token: user.generateJWT()
+			} );
+		} else {
 			return res
-				.status( 400 )
-				.json( {
-					message: 'No user with these details'
-				} );
+				.status( 401 )
+				.json( info );
 		}
-
-		// Check if the password is valid
-		if ( !user.validPassword( req.body.password ) ) {
-			return res
-				.status( 400 )
-				.json( {
-					message: 'Incorrect password'
-				} );
-		}
-
-		// > TODO: Return a JWT
-		return res
-			.json( user );
-	} );
+	} )( req, res, next );
 } );
 
 module.exports = router;
