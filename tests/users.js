@@ -94,7 +94,7 @@ describe( 'Users API', function () {
 				} );
 		} );
 
-		it( 'should check if the email id is unique', function (done ) {
+		it( 'should check if the email id is unique', function ( done ) {
 			// Retrying with the same email ID as used in the previous test set
 			superagent
 				.post( testUrl + 'new' )
@@ -111,7 +111,28 @@ describe( 'Users API', function () {
 	} );
 
 	describe( 'User profile actions', function () {
-		it( 'should be able to return a user profile' );
+		var token;
+
+		before( function ( done ) {
+			// Login and get a token
+			superagent
+				.post( config.dev.api + 'sessions/new' )
+				.send( { email: 'bob@example.com', password: '12345678' } )
+				.end( function ( e, res ) {
+					token = res.body.token;
+					done();
+				} );
+		} );
+
+		it( 'should be able to return a user profile', function ( done ) {
+			superagent
+				.get( testUrl )
+				.set( 'Authorization', 'Bearer ' + token )
+				.end( function ( e, res ) {
+					expect( res.body ).to.have.property( 'email' );
+					done();
+				} );
+		} );
 		it( 'should be able to update the user profile' );
 	} );
 

@@ -5,10 +5,14 @@ var
 	router = express.Router(),
 	mongoose = require( 'mongoose' ),
 	passport = require( 'passport' ),
-	User = mongoose.model( 'User' );
+	User = mongoose.model( 'User' ),
+	jwt = require( 'express-jwt' ),
+	auth = jwt( {
+		secret: 'TODO: SECRET',
+		userProperty: 'payload'
+	} );
 
 // ## New User
-
 // **POST: /users/new**
 // ```
 // {
@@ -83,6 +87,19 @@ router.post( '/new', function ( req, res, next ) {
 				message: 'User created'
 			} );
 	} );
+} );
+
+// ## Get User Profile
+// **GET: /users/**
+// ```
+// Authorization: Bearer [token]
+// ```
+router.get( '/', auth, function ( req, res, next ) {
+	// Using the JWT auth to get user details on `req.payload`.
+	return res
+		.json( {
+			email: req.payload.email
+		} );
 } );
 
 module.exports = router;
