@@ -2,18 +2,27 @@
 
 ## Quickstart
 
-API for user registration and authentication. To use, install dependencies and start the server-
+API for user registration and authentication.
 
+To use, first install dependencies-
 ```
 $ npm install
+```
+
+Then start the Mongo and Node servers-
+```
 $ mongod
 $ node ./bin/www
 ```
 
 To generate the API's documentation, run-
-
 ```
 $ grunt docco:api
+```
+
+To run all tests, run-
+```
+$ grunt test
 ```
 
 
