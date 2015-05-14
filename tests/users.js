@@ -134,7 +134,19 @@ describe( 'Users API', function () {
 					done();
 				} );
 		} );
-		it( 'should be able to update the user profile' );
+
+		it( 'should be able to update name in the user profile', function ( done ) {
+			superagent
+				.post( testUrl )
+				.set( 'Authorization', 'Bearer ' + token )
+				.send( { name: 'Bob' } )
+				.end( function ( e, res ) {
+					expect( res.status ).to.be.equal( 200 );
+					expect( res.body ).to.have.property( 'name' );
+					expect( res.body.name ).to.be.equal( 'Bob' );
+					done();
+				} );
+		} );
 	} );
 
 	after( function ( done ) {

@@ -97,11 +97,33 @@ router.post( '/new', function ( req, res, next ) {
 // ```
 router.get( '/', auth, function ( req, res, next ) {
 	// Using the JWT auth to get user details on `req.payload`.
-	return res
-		.json( {
+	return res.json( {
 			email: req.payload.email,
 			name: req.payload.name || null
 		} );
+} );
+
+// ## Update User Profile
+// **POST: /users/**
+// ```
+// Authorization: Bearer [token]
+// { name: 'Bob' }
+// ```
+// This will update the profile and return a `200`
+// along with the updated profile.
+router.post( '/', auth, function ( req, res, next ) {
+	// Get the user from `req.payload.email`.
+	User.findOne( { email: req.payload.email }, function ( err, user ) {
+		// Update profile information one-by-one.
+		// *Don't want to override `salt` or `_id` by mistake*
+		// > TODO: Use a smarter way, like $.extend
+		user.name = req.body.name;
+
+		return res.json( {
+			email: user.email,
+			name: user.name
+		} );
+	} );
 } );
 
 module.exports = router;
