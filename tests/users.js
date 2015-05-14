@@ -130,6 +130,7 @@ describe( 'Users API', function () {
 				.set( 'Authorization', 'Bearer ' + token )
 				.end( function ( e, res ) {
 					expect( res.body ).to.have.property( 'email' );
+					expect( res.body ).to.have.property( 'name' );
 					done();
 				} );
 		} );

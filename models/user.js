@@ -10,6 +10,7 @@ UserSchema = new mongoose.Schema( {
 		lowercase: true,
 		unique: true
 	},
+	name: String,
 	hash: String,
 	salt: String
 } );

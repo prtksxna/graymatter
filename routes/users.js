@@ -99,7 +99,8 @@ router.get( '/', auth, function ( req, res, next ) {
 	// Using the JWT auth to get user details on `req.payload`.
 	return res
 		.json( {
-			email: req.payload.email
+			email: req.payload.email,
+			name: req.payload.name || null
 		} );
 } );
 
