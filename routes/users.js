@@ -1,6 +1,7 @@
 // *Attached to `/users`*
 
 var
+	config = require( '../config/config.js'),
 	express = require('express'),
 	router = express.Router(),
 	mongoose = require( 'mongoose' ),
@@ -8,7 +9,7 @@ var
 	User = mongoose.model( 'User' ),
 	jwt = require( 'express-jwt' ),
 	auth = jwt( {
-		secret: 'TODO: SECRET',
+		secret: config.dev.secret,
 		userProperty: 'payload'
 	} );
 

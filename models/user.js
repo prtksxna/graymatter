@@ -1,4 +1,5 @@
 var UserSchema,
+	config = require( '../config/config.js' ),
 	mongoose = require( 'mongoose' ),
 	crypto = require( 'crypto' ),
 	jwt = require( 'jsonwebtoken' );
@@ -36,7 +37,7 @@ UserSchema.methods.generateJWT = function () {
 		_id: this._id,
 		email: this.email,
 		exp: parseInt( exp.getTime() / 1000 )
-	}, 'TODO: SECRET' );
+	}, config.dev.secret );
 };
 
 UserSchema.path( 'email' ).validate( function ( email ) {
