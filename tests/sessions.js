@@ -40,7 +40,27 @@ describe( 'Sessions API', function () {
 			} );
 	} );
 
-	it( 'should check that different sessions have different tokens' );
+	it( 'should check that different sessions have different tokens', function ( done ) {
+		// First login
+		superagent
+			.post( testUrl + 'new' )
+			.send( { email: 'bob@example.com', password: '12345678' } )
+			.end( function ( e, res ) {
+				var firstToken = res.body.token;
+
+				// TODO: Use promises
+
+				// Second login
+				superagent
+					.post( testUrl + 'new' )
+					.send( { email: 'bob@example.com', password: '12345678' } )
+					.end( function ( e, res ) {
+						var secondToken = res.body.token;
+						expect( firstToken ).to.not.equal( secondToken );
+						done();
+					} );
+			} );
+	} );
 
 	describe( 'Login Validations', function () {
 
