@@ -31,12 +31,14 @@ UserSchema.methods.validPassword = function ( password ) {
 UserSchema.methods.generateJWT = function () {
 	var
 		today = new Date(),
-		exp = new Date( today );
+		exp = new Date( today ),
+		timeSalt = new Date().getTime();
 	exp.setDate( today.getDate() + 60 );
 
 	return jwt.sign( {
 		_id: this._id,
 		email: this.email,
+		jit: this._id + timeSalt,
 		exp: parseInt( exp.getTime() / 1000 )
 	}, config.dev.secret );
 };

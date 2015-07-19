@@ -40,6 +40,8 @@ describe( 'Sessions API', function () {
 			} );
 	} );
 
+	it( 'should check that different sessions have different tokens' );
+
 	describe( 'Login Validations', function () {
 
 		it( '400: should not let a user login without email', function ( done ) {

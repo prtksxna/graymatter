@@ -149,6 +149,8 @@ describe( 'Users API', function () {
 		} );
 	} );
 
+	it( 'should allow me to log out of other computers and thus blacklist the token' );
+
 	after( function ( done ) {
 		console.log( '  > Looking for test user - bob@example.com' );
 		User.remove( { email: 'bob@example.com' }, function ( err, user ) {
