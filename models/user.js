@@ -12,6 +12,7 @@ UserSchema = new mongoose.Schema( {
 	},
 	name: String,
 	hash: String,
+	googleId: String,
 	salt: String
 } );
 

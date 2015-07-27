@@ -35,9 +35,6 @@ describe( 'Users API', function () {
 					done();
 				} );
 		} );
-
-		it( 'should let a user register with Google' );
-
 	} );
 
 	describe( 'Registering validations', function () {

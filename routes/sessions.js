@@ -44,4 +44,23 @@ router.post( '/new', function ( req, res, next ) {
 	} )( req, res, next );
 } );
 
+// > TODO: Write documentation
+router.get( '/google', passport.authenticate( 'google', {
+	scope: 'https://www.google.com/m8/feeds https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
+} ) );
+
+// > TODO: Write documentation
+router.get( '/google/callback',
+	passport.authenticate( 'google', {
+		// > TODO: What should we do here?
+		failureRedirect: '/logintome'
+	} ),
+	function ( req, res ) {
+		// Successful authentication, redirect home.
+		return res.json( {
+			token: req.user.generateJWT()
+		} );
+	}
+);
+
 module.exports = router;

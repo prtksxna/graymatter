@@ -113,6 +113,19 @@ describe( 'Sessions API', function () {
 		} );
 	} );
 
+	describe( 'Third party authentication', function ( done ) {
+
+		it( 'should let the user sign in through Google', function ( done ) {
+			this.timeout( 10000 );
+			superagent
+				.get( testUrl + 'google' )
+				.end( function ( e, res ) {
+					expect( res.status ).to.be( 200 );
+					done();
+				} );
+		} );
+	} );
+
 	after( function ( done ) {
 		console.log( '  > Looking for test user - bob@example.com' );
 		User.remove( { email: 'bob@example.com' }, function ( err, user ) {
