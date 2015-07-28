@@ -115,12 +115,13 @@ describe( 'Sessions API', function () {
 
 	describe( 'Third party authentication', function ( done ) {
 
-		it( 'should let the user sign in through Google', function ( done ) {
-			this.timeout( 10000 );
+		it( 'should redirect the user to Google', function ( done ) {
+			this.timeout( 10000 ); // Waiting for redirects
 			superagent
 				.get( testUrl + 'google' )
 				.end( function ( e, res ) {
 					expect( res.status ).to.be( 200 );
+					expect( res.redirects.length ).to.be.greaterThan( 0 );
 					done();
 				} );
 		} );

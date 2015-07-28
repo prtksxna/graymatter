@@ -44,20 +44,32 @@ router.post( '/new', function ( req, res, next ) {
 	} )( req, res, next );
 } );
 
-// > TODO: Write documentation
+// ## Third party authentication
+
+// **GET: /sessions/google**
+
+// This will redirect to the Google permission page and once accepted
+// back to the the app.
 router.get( '/google', passport.authenticate( 'google', {
-	scope: 'https://www.google.com/m8/feeds https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
+	// > TODO: Revisit these scopes and see what is required
+	scope: 'https://www.google.com/m8/feeds ' +
+		'https://www.googleapis.com/auth/userinfo.email ' +
+		'https://www.googleapis.com/auth/userinfo.profile'
 } ) );
 
-// > TODO: Write documentation
+// This the callback called from Google. It returns the JWT of the user
+// whether it was new or existing.
 router.get( '/google/callback',
 	passport.authenticate( 'google', {
 		// > TODO: What should we do here?
-		failureRedirect: '/logintome'
+		// > I am unsure of how this entire process will be
+		// > consumed by the UI and will make changes here once
+		// > we know more.
+		failureRedirect: '/login'
 	} ),
 	function ( req, res ) {
-		// Successful authentication, redirect home.
 		return res.json( {
+			// Successful authentication, generate and return JWT.
 			token: req.user.generateJWT()
 		} );
 	}

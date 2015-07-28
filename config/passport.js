@@ -36,14 +36,17 @@ passport.use( new GoogleStrategy(
 		callbackURL: 'http://localhost:3000/sessions/google/callback'
 	},
 	function ( accessToken, refreshToken, profile, done ) {
-		// TODO: Why are we doing this?
+		// TODO: Why are we deferring this execution?
 		process.nextTick( function () {
+			// Find the user using the Google ID.
 			User.findOne( { googleId: profile.id }, function ( err, user ) {
 				if ( user ) {
 					return done( err, user );
 				} else {
+					// Or create one.
 					var newUser = new User();
 					newUser.googleId = profile.id;
+					newUser.name = profile.displayName;
 					newUser.email = profile.emails[ 0 ].value;
 					newUser.save( function p( err ) {
 						return done( err, newUser );
@@ -54,12 +57,10 @@ passport.use( new GoogleStrategy(
 	}
 ) );
 
-// TODO: What is this?
 passport.serializeUser( function ( user, done ) {
 	done( null, user );
 } );
 
-// TODO: What is this?
 passport.deserializeUser( function ( user, done ) {
 	done( null, user );
 } );
