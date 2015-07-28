@@ -48,8 +48,6 @@ describe( 'Sessions API', function () {
 			.end( function ( e, res ) {
 				var firstToken = res.body.token;
 
-				// TODO: Use promises
-
 				// Second login
 				superagent
 					.post( testUrl + 'new' )
