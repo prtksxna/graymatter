@@ -14,15 +14,4 @@
 	// Relaxing
 	"laxbreak": true,
 	"multistr": true,
-
-	// Environment
-	"browser": true,
-
-	"globals": {
-		"mediaWiki": true,
-		"JSON": true,
-		"jQuery": false,
-		"QUnit": false,
-		"sinon": false
-	}
 }

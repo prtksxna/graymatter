@@ -1,11 +1,11 @@
 require( '../models/user' );
 
 var
-	superagent = require('superagent'),
-	expect = require('expect.js'),
+	superagent = require( 'superagent' ),
+	expect = require( 'expect.js' ),
 	mongoose = require( 'mongoose' ),
-	User = mongoose.model('User'),
-	config = require( '../config/config.js'),
+	User = mongoose.model( 'User' ),
+	config = require( '../config/config.js' ),
 	testUrl = config.dev.api + 'users/';
 
 describe( 'Users API', function () {
@@ -25,7 +25,7 @@ describe( 'Users API', function () {
 
 	describe( 'Registration', function () {
 
-		it( 'should let a user register with email and password', function (done ) {
+		it( 'should let a user register with email and password', function ( done ) {
 			superagent
 				.post( testUrl + 'new' )
 				.send( { email: 'bob@example.com', password: '12345678' } )
@@ -63,7 +63,7 @@ describe( 'Users API', function () {
 				} );
 		} );
 
-		it( 'should not accept an invalid email address', function (done ) {
+		it( 'should not accept an invalid email address', function ( done ) {
 			superagent
 				.post( testUrl + 'new' )
 				.send( { email: 'bobexample.com', password: '12345678' } )
@@ -77,7 +77,7 @@ describe( 'Users API', function () {
 				} );
 		} );
 
-		it( 'should not accept a password smaller than 8 characters', function (done ) {
+		it( 'should not accept a password smaller than 8 characters', function ( done ) {
 			superagent
 				.post( testUrl + 'new' )
 				.send( { email: 'bob@example.com', password: '123456' } )

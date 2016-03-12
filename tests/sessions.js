@@ -1,10 +1,10 @@
 require( '../models/user' );
 
-var superagent = require('superagent'),
-	expect = require('expect.js'),
+var superagent = require( 'superagent' ),
+	expect = require( 'expect.js' ),
 	mongoose = require( 'mongoose' ),
-	User = mongoose.model('User'),
-	config = require( '../config/config.js'),
+	User = mongoose.model( 'User' ),
+	config = require( '../config/config.js' ),
 	testUrl = config.dev.api + 'sessions/';
 
 describe( 'Sessions API', function () {

@@ -1,7 +1,7 @@
 // *Attached to `/users`*
 
 var
-	express = require('express'),
+	express = require( 'express' ),
 	router = express.Router(),
 	mongoose = require( 'mongoose' ),
 	passport = require( 'passport' ),

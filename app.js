@@ -1,5 +1,5 @@
 require( './models/user' );
-require('./config/passport');
+require( './config/passport' );
 
 var
 	express = require( 'express' ),
@@ -7,7 +7,7 @@ var
 	logger = require( 'morgan' ),
 	bodyParser = require( 'body-parser' ),
 	mongoose = require( 'mongoose' ),
-	passport = require('passport'),
+	passport = require( 'passport' ),
 	routes = require( './routes/index' ),
 	users = require( './routes/users' ),
 	sessions = require( './routes/sessions' ),
@@ -19,7 +19,7 @@ mongoose.connect( config.dev.db );
 
 app.use( logger( 'dev' ) );
 app.use( bodyParser.json() );
-app.use( bodyParser.urlencoded({ extended: false }));
+app.use( bodyParser.urlencoded( { extended: false } ) );
 app.use( passport.initialize() );
 
 app.use( '/', routes );
@@ -31,7 +31,7 @@ app.use( '/sessions', sessions );
 app.use( function ( req, res, next ) {
 	var err = new Error( 'Not Found' );
 	err.status = 404;
-	next(err);
+	next( err );
 } );
 
 // development error handler

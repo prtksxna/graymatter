@@ -1,9 +1,9 @@
-var passport = require('passport'),
-	LocalStrategy = require('passport-local').Strategy,
+var passport = require( 'passport' ),
+	LocalStrategy = require( 'passport-local' ).Strategy,
 	GoogleStrategy = require( 'passport-google-oauth' ).OAuth2Strategy,
-	mongoose = require('mongoose'),
-	config = require( '../config/config.js'),
-	User = mongoose.model('User');
+	mongoose = require( 'mongoose' ),
+	config = require( '../config/config.js' ),
+	User = mongoose.model( 'User' );
 
 passport.use( new LocalStrategy(
 	{
