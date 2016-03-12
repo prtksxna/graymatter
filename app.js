@@ -11,6 +11,7 @@ var
 	routes = require( './routes/index' ),
 	users = require( './routes/users' ),
 	sessions = require( './routes/sessions' ),
+	groups = require( './routes/groups' ),
 	config = require( './config/config.js' ),
 	app = express();
 
@@ -25,6 +26,7 @@ app.use( passport.initialize() );
 app.use( '/', routes );
 app.use( '/users', users );
 app.use( '/sessions', sessions );
+app.use( '/groups', groups );
 
 // Error Handling
 // catch 404 and forward to error handler
