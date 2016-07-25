@@ -60,7 +60,7 @@ describe( 'Group API', function () {
 			} );
 	} );
 
-	it( 'should not return a list of groups owned by the user', function ( done ) {
+	it( 'should return a list of groups owned by the user', function ( done ) {
 		superagent
 			.get( testUrl )
 			.set( 'Authorization', 'Bearer ' + token )
