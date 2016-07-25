@@ -20,6 +20,9 @@ router.post( '/', auth, function ( req, res, next ) {
 	} );
 
 	group.save( function ( err, next ) {
+		if ( err ) {
+			return res.status( 400 ).json( err );
+		}
 		return res.status( 201 ).json( group );
 	} );
 } );
