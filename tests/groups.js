@@ -96,8 +96,7 @@ describe( 'Group API', function () {
 			} );
 	} );
 
-	// TODO: Run this test after adding some groups so that we can REALLY test it
-	it( 'should return a list of groups owned by the user', function ( done ) {
+	it( 'should return a list of groups the user is in', function ( done ) {
 		superagent
 			.get( testUrl )
 			.set( 'Authorization', 'Bearer ' + token )
@@ -105,6 +104,7 @@ describe( 'Group API', function () {
 				expect( res.status ).to.be( 200 );
 				expect( res.body ).to.have.property( 'groups' );
 				expect( res.body.groups ).to.be.an( 'array' );
+				expect( res.body.groups ).to.have.length( 1 );
 				done();
 			} );
 	} );

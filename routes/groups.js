@@ -29,12 +29,19 @@ router.post( '/', auth, function ( req, res, next ) {
 
 router.get( '/', auth, function ( req, res, next ) {
 	// TODO If this is meant to return all groups, we need to run two queries
-	Group.find( { owner: req.payload.id }, function ( err, groups ) {
+	Group
+		.find( {
+			admins: { $in: [ req.payload._id ] }
+		} )
+		.exec( function ( err, groups ) {
+			if ( err ) {
+				return res.status( 500 ).json( err );
+			}
 
-		return res.json( {
-			groups: groups
+			return res.json( {
+				groups: groups
+			} );
 		} );
-	} );
 } );
 
 module.exports = router;
