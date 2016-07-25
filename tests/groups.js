@@ -109,7 +109,15 @@ describe( 'Group API', function () {
 			} );
 	} );
 
-	it( 'should be able to create a new group' );
+	it( 'should let user add members' );
+	it( 'should check if the returned list has groups both member and admin of' );
+	it( 'should let members remove themselves from a group' );
+	it( 'should let admins make members admin' );
+	it( 'should let admins remove members as admin' );
+	it( 'should let admins remove admins as admin' );
+	it( 'should let admins make themselves members' );
+	it( 'should make sure an group is not admin-less' );
+	it( 'should not let admin remove themselves (they need to un-admin first)' );
 
 	after( function ( done ) {
 		console.log( '  > Looking for test user - bob@example.com' );
