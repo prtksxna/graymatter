@@ -60,6 +60,23 @@ describe( 'Group API', function () {
 			} );
 	} );
 
+	// TODO: Add a test to add organization without auth
+	// TODO: Add a test to add organization without name
+
+	it( 'should let you add a new organization', function ( done ) {
+		superagent
+			.post( testUrl )
+			.set( 'Authorization', 'Bearer ' + token )
+			.send( { name: 'Test Organization' } )
+			.end( function ( e, res ) {
+				expect( res.status ).to.be( 201 );
+				expect( res.body.name ).to.be.equal( 'Test Organization' );
+				expect( res.body.admins ).to.have.length( 1 );
+				expect( res.body.members ).to.have.length( 0 );
+				done();
+			} );
+	} );
+
 	// TODO: Run this test after adding some groups so that we can REALLY test it
 	it( 'should return a list of groups owned by the user', function ( done ) {
 		superagent

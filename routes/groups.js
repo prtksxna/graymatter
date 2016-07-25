@@ -13,7 +13,19 @@ var
 		userProperty: 'payload'
 	} );
 
+router.post( '/', auth, function ( req, res, next ) {
+	var group = new Group( {
+		name: req.body.name,
+		admins: [ req.payload._id ]
+	} );
+
+	group.save( function ( err, next ) {
+		return res.status( 201 ).json( group );
+	} );
+} );
+
 router.get( '/', auth, function ( req, res, next ) {
+	// TODO If this is meant to return all groups, we need to run two queries
 	Group.find( { owner: req.payload.id }, function ( err, groups ) {
 
 		return res.json( {

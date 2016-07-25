@@ -3,11 +3,17 @@ var GroupSchema,
 	Schema = mongoose.Schema;
 
 GroupSchema = new mongoose.Schema( {
-	name: String,
-	admins: [ {
-		type: Schema.Types.ObjectId,
-		ref: 'User'
-	} ],
+	name: {
+		type: String,
+		required: true
+	},
+	admins: {
+		type: [ {
+			type: Schema.Types.ObjectId,
+			ref: 'User'
+		} ],
+		required: true
+	},
 	members: [ {
 		type: Schema.Types.ObjectId,
 		ref: 'User'
