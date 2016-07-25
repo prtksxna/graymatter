@@ -60,7 +60,16 @@ describe( 'Group API', function () {
 			} );
 	} );
 
-	// TODO: Add a test to add organization without auth
+	it( 'should not let you add an organization if user is not authenticated', function ( done ) {
+		superagent
+			.post( testUrl )
+			.send( { name: 'Test Organization' } )
+			.end( function ( e, res ) {
+				expect( res.status ).to.be( 401 );
+				done();
+			} );
+	} );
+
 	it( 'should not let you add a new organization without a name', function ( done ) {
 		superagent
 			.post( testUrl )
