@@ -16,6 +16,7 @@ var
 	app = express();
 
 // TODO: How would we handle this in prod?
+// ANS: Environment variables
 mongoose.connect( config.dev.db );
 
 app.use( logger( 'dev' ) );
