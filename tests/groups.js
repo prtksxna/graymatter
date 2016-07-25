@@ -60,6 +60,7 @@ describe( 'Group API', function () {
 			} );
 	} );
 
+	// TODO: Run this test after adding some groups so that we can REALLY test it
 	it( 'should return a list of groups owned by the user', function ( done ) {
 		superagent
 			.get( testUrl )

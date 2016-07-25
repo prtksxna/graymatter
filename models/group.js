@@ -4,10 +4,10 @@ var GroupSchema,
 
 GroupSchema = new mongoose.Schema( {
 	name: String,
-	owner: {
+	admins: [ {
 		type: Schema.Types.ObjectId,
 		ref: 'User'
-	},
+	} ],
 	members: [ {
 		type: Schema.Types.ObjectId,
 		ref: 'User'
