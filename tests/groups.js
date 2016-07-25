@@ -60,17 +60,17 @@ describe( 'Group API', function () {
 			} );
 	} );
 
-	it( 'should not let you add an organization if user is not authenticated', function ( done ) {
+	it( 'should not let you add an group if user is not authenticated', function ( done ) {
 		superagent
 			.post( testUrl )
-			.send( { name: 'Test Organization' } )
+			.send( { name: 'Test Group' } )
 			.end( function ( e, res ) {
 				expect( res.status ).to.be( 401 );
 				done();
 			} );
 	} );
 
-	it( 'should not let you add a new organization without a name', function ( done ) {
+	it( 'should not let you add a new group without a name', function ( done ) {
 		superagent
 			.post( testUrl )
 			.set( 'Authorization', 'Bearer ' + token )
@@ -82,14 +82,14 @@ describe( 'Group API', function () {
 			} );
 	} );
 
-	it( 'should let you add a new organization', function ( done ) {
+	it( 'should let you add a new group', function ( done ) {
 		superagent
 			.post( testUrl )
 			.set( 'Authorization', 'Bearer ' + token )
-			.send( { name: 'Test Organization' } )
+			.send( { name: 'Test Group' } )
 			.end( function ( e, res ) {
 				expect( res.status ).to.be( 201 );
-				expect( res.body.name ).to.be.equal( 'Test Organization' );
+				expect( res.body.name ).to.be.equal( 'Test Group' );
 				expect( res.body.admins ).to.have.length( 1 );
 				expect( res.body.members ).to.have.length( 0 );
 				done();

@@ -51,7 +51,7 @@ UserSchema.path( 'email' ).validate( function ( email ) {
 }, 'Invalid email' );
 
 // TODO: Add a decorator to remove this user as admin and member from
-// old organizations, and delete those organizations that contain
+// old groups, and delete those groups that contain
 // only this user
 
 mongoose.model( 'User', UserSchema );
