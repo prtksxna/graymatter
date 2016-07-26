@@ -105,10 +105,39 @@ describe( 'Group API', function () {
 				expect( res.body ).to.have.property( 'groups' );
 				expect( res.body.groups ).to.be.an( 'array' );
 				expect( res.body.groups ).to.have.length( 1 );
+				// TODO: Expect not to have certain properties
+				// we don't need all sessions and members at this
+				// point, for example
 				done();
 			} );
 	} );
 
+	it( 'should return details of a particular group', function ( done ) {
+		// First get all groups and then details of one
+		superagent
+			.get( testUrl )
+			.set( 'Authorization', 'Bearer ' + token )
+			.end( function ( e, res ) {
+				var groupUrl = testUrl + res.body.groups[ 0 ]._id;
+				superagent
+					.get( groupUrl )
+					.set( 'Authorization', 'Bearer ' + token )
+					.end( function ( e, res ) {
+						var group = res.body;
+						expect( group ).to.have.property( 'name' );
+						expect( group.name ).to.be( 'Test Group' );
+						expect( group ).to.have.property( 'admins' );
+						expect( group.admins ).to.be.an( 'array' );
+						expect( group ).to.have.property( 'members' );
+						expect( group.members ).to.be.an( 'array' );
+						// TODO: expect( group ).to.have.property( 'brainstorms' );
+						done();
+					} );
+			} );
+
+	} );
+
+	it( 'should only return details of groups that the user is part of' );
 	it( 'should let user add members' );
 	it( 'should check if the returned list has groups both member and admin of' );
 	it( 'should let members remove themselves from a group' );
@@ -120,6 +149,7 @@ describe( 'Group API', function () {
 	it( 'should not let admin remove themselves (they need to un-admin first)' );
 
 	after( function ( done ) {
+		// TODO: Remove all the groups that were created
 		console.log( '  > Looking for test user - bob@example.com' );
 		User.remove( { email: 'bob@example.com' }, function ( err, user ) {
 			console.log( '  > Removed test user - bob@example.com' );

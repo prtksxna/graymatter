@@ -44,4 +44,13 @@ router.get( '/', auth, function ( req, res, next ) {
 		} );
 } );
 
+router.get( '/:id', auth, function ( req, res, next ) {
+	Group.findById( req.params.id, function ( err, group ) {
+		if ( err ) {
+			return res.status( 500 ).json( err );
+		}
+		return res.json( group );
+	} );
+} );
+
 module.exports = router;
