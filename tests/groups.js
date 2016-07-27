@@ -11,6 +11,7 @@ var
 	testUrl = config.dev.api + 'groups/';
 
 describe( 'Group API', function () {
+	var bobsToken, alicesToken;
 
 	before( function ( done ) {
 		mongoose.connect( config.dev.db, function ( error ) {
@@ -43,8 +44,16 @@ describe( 'Group API', function () {
 						.post( config.dev.api + 'sessions/new' )
 						.send( { email: 'bob@example.com', password: '12345678' } )
 						.end( function ( e, res ) {
-							token = res.body.token;
-							done();
+							bobsToken = res.body.token;
+
+							console.log( '  > Logging in alice@example.com' );
+							superagent
+								.post( config.dev.api + 'sessions/new' )
+								.send( { email: 'alice@example.com', password: '12345678' } )
+								.end( function ( e, res ) {
+									alicesToken = res.body.token;
+									done();
+								} );
 						} );
 				} );
 			} );
@@ -73,7 +82,7 @@ describe( 'Group API', function () {
 	it( 'should not let you add a new group without a name', function ( done ) {
 		superagent
 			.post( testUrl )
-			.set( 'Authorization', 'Bearer ' + token )
+			.set( 'Authorization', 'Bearer ' + bobsToken )
 			.end( function ( e, res ) {
 				expect( res.status ).to.be( 400 );
 				expect( res.body ).to.have.property( 'message' );
@@ -85,7 +94,7 @@ describe( 'Group API', function () {
 	it( 'should let you add a new group', function ( done ) {
 		superagent
 			.post( testUrl )
-			.set( 'Authorization', 'Bearer ' + token )
+			.set( 'Authorization', 'Bearer ' + bobsToken )
 			.send( { name: 'Test Group' } )
 			.end( function ( e, res ) {
 				expect( res.status ).to.be( 201 );
@@ -99,7 +108,7 @@ describe( 'Group API', function () {
 	it( 'should return a list of groups the user is in', function ( done ) {
 		superagent
 			.get( testUrl )
-			.set( 'Authorization', 'Bearer ' + token )
+			.set( 'Authorization', 'Bearer ' + bobsToken )
 			.end( function ( e, res ) {
 				expect( res.status ).to.be( 200 );
 				expect( res.body ).to.have.property( 'groups' );
@@ -116,12 +125,12 @@ describe( 'Group API', function () {
 		// First get all groups and then details of one
 		superagent
 			.get( testUrl )
-			.set( 'Authorization', 'Bearer ' + token )
+			.set( 'Authorization', 'Bearer ' + bobsToken )
 			.end( function ( e, res ) {
 				var groupUrl = testUrl + res.body.groups[ 0 ]._id;
 				superagent
 					.get( groupUrl )
-					.set( 'Authorization', 'Bearer ' + token )
+					.set( 'Authorization', 'Bearer ' + bobsToken )
 					.end( function ( e, res ) {
 						var group = res.body;
 						expect( group ).to.have.property( 'name' );
