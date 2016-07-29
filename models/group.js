@@ -1,6 +1,5 @@
-var GroupSchema,
-	mongoose = require( 'mongoose' ),
-	Schema = mongoose.Schema;
+var GroupSchema, Group,
+	mongoose = require( 'mongoose' );
 
 GroupSchema = new mongoose.Schema( {
 	name: {
@@ -9,15 +8,15 @@ GroupSchema = new mongoose.Schema( {
 	},
 	admins: {
 		type: [ {
-			type: Schema.Types.ObjectId,
+			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User'
 		} ],
 		required: true
 	},
 	members: [ {
-		type: Schema.Types.ObjectId,
+		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'
 	} ]
 } );
 
-mongoose.model( 'Group', GroupSchema );
+Group = mongoose.model( 'Group', GroupSchema );
