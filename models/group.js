@@ -19,4 +19,11 @@ GroupSchema = new mongoose.Schema( {
 	} ]
 } );
 
+GroupSchema.statics.findByUser = function ( userId, cb ) {
+	// TODO If this is meant to return all groups, we need to run two queries
+	Group.find( {
+		admins: { $in: [ userId ] }
+	} ).exec( cb );
+};
+
 Group = mongoose.model( 'Group', GroupSchema );
