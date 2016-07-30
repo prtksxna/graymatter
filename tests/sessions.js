@@ -34,23 +34,27 @@ describe( 'Sessions API', function () {
 	} );
 
 	it( 'should check that different sessions have different tokens', function ( done ) {
-		// First login
-		superagent
+		var firstLogin, secondLogin;
+
+		firstLogin = superagent
 			.post( testUrl + 'new' )
 			.send( { email: 'bob@example.com', password: '12345678' } )
-			.end( function ( e, res ) {
-				var firstToken = res.body.token;
-
-				// Second login
-				superagent
-					.post( testUrl + 'new' )
-					.send( { email: 'bob@example.com', password: '12345678' } )
-					.end( function ( e, res ) {
-						var secondToken = res.body.token;
-						expect( firstToken ).to.not.equal( secondToken );
-						done();
-					} );
+			.then( function ( res ) {
+				return res.body.token;
 			} );
+
+		secondLogin = superagent
+			.post( testUrl + 'new' )
+			.send( { email: 'bob@example.com', password: '12345678' } )
+			.then( function ( res ) {
+				return res.body.token;
+			} );
+
+		Promise.all( [ firstLogin, secondLogin ] ).then( function ( firstToken, secondToken ) {
+			expect( firstToken ).to.not.equal( secondToken );
+			done();
+		} );
+
 	} );
 
 	describe( 'Login Validations', function () {
