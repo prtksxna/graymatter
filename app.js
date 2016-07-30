@@ -18,6 +18,7 @@ var
 // TODO: How would we handle this in prod?
 // ANS: Environment variables
 mongoose.connect( config.dev.db );
+mongoose.Promise = global.Promise;
 
 app.use( logger( 'dev' ) );
 app.use( bodyParser.json() );

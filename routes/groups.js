@@ -19,32 +19,26 @@ router.post( '/', auth, function ( req, res, next ) {
 		admins: [ req.payload._id ]
 	} );
 
-	group.save( function ( err, next ) {
-		if ( err ) {
-			return res.status( 400 ).json( err );
-		}
+	group.save().then( function ( group ) {
 		return res.status( 201 ).json( group );
+	} ).then( null, function ( err ) {
+		return res.status( 400 ).json( err );
 	} );
 } );
 
 router.get( '/', auth, function ( req, res, next ) {
-	Group.findByUser( req.payload._id, function ( err, groups ) {
-		if ( err ) {
-			return res.status( 500 ).json( err );
-		}
-
-		return res.json( {
-			groups: groups
-		} );
+	Group.findByUser( req.payload._id ).then( function ( groups ) {
+		return res.json( { groups: groups } );
+	} ).then( null, function ( err ) {
+		return res.status( 500 ).json( err );
 	} );
 } );
 
 router.get( '/:id', auth, function ( req, res, next ) {
-	Group.findById( req.params.id, function ( err, group ) {
-		if ( err ) {
-			return res.status( 500 ).json( err );
-		}
+	Group.findById( req.params.id ).exec().then( function ( group ) {
 		return res.json( group );
+	} ).then( null, function ( err ) {
+		return res.status( 500 ).json( err );
 	} );
 } );
 
