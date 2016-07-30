@@ -11,15 +11,12 @@ var
 describe( 'Users API', function () {
 
 	before( function ( done ) {
-		mongoose.connect( config.dev.db, function ( error ) {
-			if ( error ) {
-				throw error;
-			}
-		} );
-		console.log( '  > Looking for test user - bob@example.com' );
-		User.remove( { email: 'bob@example.com' }, function ( err, user ) {
-			console.log( '  > Removed test user - bob@example.com' );
-			done();
+		mongoose.connect( config.dev.db ).then( function () {
+			console.log( '  > Looking for test user - bob@example.com' );
+			User.remove( { email: 'bob@example.com' } ).then( function ( user ) {
+				console.log( '  > Removed test user - bob@example.com' );
+				done();
+			} );
 		} );
 	} );
 
@@ -150,11 +147,9 @@ describe( 'Users API', function () {
 
 	after( function ( done ) {
 		console.log( '  > Looking for test user - bob@example.com' );
-		User.remove( { email: 'bob@example.com' }, function ( err, user ) {
+		User.remove( { email: 'bob@example.com' } ).then( function ( user ) {
 			console.log( '  > Removed test user - bob@example.com' );
-			mongoose.disconnect( function () {
-				done();
-			} );
+			mongoose.disconnect().then( done );
 		} );
 	} );
 } );
