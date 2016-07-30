@@ -10,19 +10,12 @@ var superagent = require( 'superagent' ),
 describe( 'Sessions API', function () {
 
 	before( function ( done ) {
-		mongoose.connect( config.dev.db, function ( error ) {
-			if ( error ) {
-				throw error;
-			}
-
+		mongoose.connect( config.dev.db ).then( function () {
 			console.log( '  > Creating test user - bob@example.com' );
 			var user = new User();
 			user.email = 'bob@example.com';
 			user.setPassword( '12345678' );
-			user.save( function ( err ) {
-				if ( err ) {
-					throw( err );
-				}
+			user.save().then( function () {
 				console.log( '  > Done!' );
 				done();
 			} );
@@ -127,11 +120,9 @@ describe( 'Sessions API', function () {
 
 	after( function ( done ) {
 		console.log( '  > Looking for test user - bob@example.com' );
-		User.remove( { email: 'bob@example.com' }, function ( err, user ) {
+		User.remove( { email: 'bob@example.com' } ).then( function ( user ) {
 			console.log( '  > Removed test user - bob@example.com' );
-			mongoose.disconnect( function () {
-				done();
-			} );
+			mongoose.disconnect().then( done );
 		} );
 	} );
 
