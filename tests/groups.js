@@ -145,6 +145,16 @@ describe( 'Group API', function () {
 
 	} );
 
+	it( 'should not show details of a group if a non-member/admin requests it', function ( done ) {
+		request
+			.get( testUrl + testGroupId )
+			.set( 'Authorization', 'Bearer ' + alicesToken )
+			.end( function ( e, res ) {
+				expect( res.status ).to.be( 404 );
+				done();
+			} );
+	} );
+
 	it( 'should let user add members', function ( done ) {
 		request
 			.post( testUrl + testGroupId + '/add_member' )

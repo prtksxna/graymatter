@@ -35,6 +35,11 @@ GroupSchema.statics.findByUser = function ( userId ) {
 	} );
 };
 
+GroupSchema.methods.canBeSeenBy = function ( userId ) {
+	return this.admins.indexOf( userId ) > -1 ||
+		this.members.indexOf( userId ) > -1;
+};
+
 GroupSchema.methods.addMember = function ( userId ) {
 	this.members.push( userId );
 	return this.save();

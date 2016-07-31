@@ -36,7 +36,11 @@ router.get( '/', auth, function ( req, res, next ) {
 
 router.get( '/:id', auth, function ( req, res, next ) {
 	Group.findById( req.params.id ).exec().then( function ( group ) {
-		return res.json( group );
+		if ( group.canBeSeenBy( req.payload._id ) ) {
+			return res.json( group );
+		} else {
+			return res.status( 404 ).send();
+		}
 	} ).then( null, function ( err ) {
 		return res.status( 500 ).json( err );
 	} );
