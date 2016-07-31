@@ -14,48 +14,45 @@ describe( 'Group API', function () {
 	var bobsToken, alicesToken;
 
 	before( function ( done ) {
-		mongoose.connect( config.dev.db, function ( error ) {
-			if ( error ) {
-				throw error;
-			}
+		mongoose.connect( config.dev.db ).then( function () {
+			var bob, saveBob, loginBob, alice, saveAlice, loginAlice;
 
 			console.log( '  > Creating first test user - bob@example.com' );
-			var user = new User();
-			user.email = 'bob@example.com';
-			user.setPassword( '12345678' );
-			user.save( function ( err ) {
-				if ( err ) {
-					throw( err );
-				}
-				console.log( '  > Done!' );
+			bob = new User();
+			bob.email = 'bob@example.com';
+			bob.setPassword( '12345678' );
+			saveBob = bob.save().then( function () {
+				console.log( '  > Created bob!' );
 
-				console.log( '  > Creating second test user - alice@example.com' );
-				var user = new User();
-				user.email = 'alice@example.com';
-				user.setPassword( '12345678' );
-				user.save( function ( err ) {
-					if ( err ) {
-						throw( err );
-					}
-					console.log( '  > Done!' );
+				console.log( '  > Logging in bob@example.com' );
+				return superagent
+					.post( config.dev.api + 'sessions/new' )
+					.send( { email: 'bob@example.com', password: '12345678' } )
+					.then( function ( res ) {
+						return res.body.token;
+					} );
+			} );
 
-					console.log( '  > Logging in bob@example.com' );
-					superagent
-						.post( config.dev.api + 'sessions/new' )
-						.send( { email: 'bob@example.com', password: '12345678' } )
-						.end( function ( e, res ) {
-							bobsToken = res.body.token;
+			console.log( '  > Creating second test user - alice@example.com' );
+			alice = new User();
+			alice.email = 'alice@example.com';
+			alice.setPassword( '12345678' );
+			saveAlice = alice.save().then( function () {
+				console.log( '  > Created alice!' );
 
-							console.log( '  > Logging in alice@example.com' );
-							superagent
-								.post( config.dev.api + 'sessions/new' )
-								.send( { email: 'alice@example.com', password: '12345678' } )
-								.end( function ( e, res ) {
-									alicesToken = res.body.token;
-									done();
-								} );
-						} );
-				} );
+				console.log( '  > Logging in alice@example.com' );
+				return superagent
+					.post( config.dev.api + 'sessions/new' )
+					.send( { email: 'alice@example.com', password: '12345678' } )
+					.then( function ( res ) {
+						return res.body.token;
+					} );
+			} );
+
+			Promise.all( [ saveBob, saveAlice ] ).then( function ( tokens ) {
+				bobsToken = tokens[ 0 ];
+				alicesToken = tokens[ 1 ];
+				done();
 			} );
 		} );
 	} );
