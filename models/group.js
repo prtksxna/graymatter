@@ -20,10 +20,19 @@ GroupSchema = new mongoose.Schema( {
 } );
 
 GroupSchema.statics.findByUser = function ( userId ) {
-	// TODO If this is meant to return all groups, we need to run two queries
-	return Group.find( {
+	var asAdmin, asMember;
+
+	asAdmin = Group.find( {
 		admins: { $in: [ userId ] }
 	} ).exec();
+
+	asMember = Group.find( {
+		members: { $in: [ userId ] }
+	} ).exec();
+
+	return Promise.all( [ asAdmin, asMember ] ).then( function ( groups ) {
+		return groups[ 0 ].concat( groups [ 1 ] );
+	} );
 };
 
 GroupSchema.methods.addMember = function ( userId ) {

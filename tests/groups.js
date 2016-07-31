@@ -153,6 +153,21 @@ describe( 'Group API', function () {
 			.end( function ( e, res ) {
 				expect( res.status ).to.be( 200 );
 				expect( res.body.members ).to.contain( alicesId );
+				expect( res.body.members ).to.have.length( 1 );
+				done();
+			} );
+	} );
+
+	it( 'should let users see groups that they are members of', function ( done ) {
+		request
+			.get( testUrl )
+			.set( 'Authorization', 'Bearer ' + alicesToken )
+			.end( function ( e, res ) {
+				var groups = res.body;
+				expect( res.status ).to.be( 200 );
+				expect( res.body ).to.have.property( 'groups' );
+				expect( res.body.groups ).to.be.an( 'array' );
+				expect( res.body.groups ).to.have.length( 1 );
 				done();
 			} );
 	} );
