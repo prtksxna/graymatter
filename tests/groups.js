@@ -2,7 +2,7 @@ require( '../models/group' );
 require( '../models/user' );
 
 var
-	superagent = require( 'superagent' ),
+	request = require( 'superagent' ),
 	expect = require( 'expect.js' ),
 	mongoose = require( 'mongoose' ),
 	Group = mongoose.model( 'Group' ),
@@ -25,7 +25,7 @@ describe( 'Group API', function () {
 				console.log( '  > Created bob!' );
 
 				console.log( '  > Logging in bob@example.com' );
-				return superagent
+				return request
 					.post( config.dev.api + 'sessions/new' )
 					.send( { email: 'bob@example.com', password: '12345678' } )
 					.then( function ( res ) {
@@ -41,7 +41,7 @@ describe( 'Group API', function () {
 				console.log( '  > Created alice!' );
 
 				console.log( '  > Logging in alice@example.com' );
-				return superagent
+				return request
 					.post( config.dev.api + 'sessions/new' )
 					.send( { email: 'alice@example.com', password: '12345678' } )
 					.then( function ( res ) {
@@ -58,7 +58,7 @@ describe( 'Group API', function () {
 	} );
 
 	it( 'should not return a list if user is not authenticated', function ( done ) {
-		superagent
+		request
 			.get( testUrl )
 			.end( function ( e, res ) {
 				expect( res.status ).to.be( 401 );
@@ -67,7 +67,7 @@ describe( 'Group API', function () {
 	} );
 
 	it( 'should not let you add an group if user is not authenticated', function ( done ) {
-		superagent
+		request
 			.post( testUrl )
 			.send( { name: 'Test Group' } )
 			.end( function ( e, res ) {
@@ -77,7 +77,7 @@ describe( 'Group API', function () {
 	} );
 
 	it( 'should not let you add a new group without a name', function ( done ) {
-		superagent
+		request
 			.post( testUrl )
 			.set( 'Authorization', 'Bearer ' + bobsToken )
 			.end( function ( e, res ) {
@@ -89,7 +89,7 @@ describe( 'Group API', function () {
 	} );
 
 	it( 'should let you add a new group', function ( done ) {
-		superagent
+		request
 			.post( testUrl )
 			.set( 'Authorization', 'Bearer ' + bobsToken )
 			.send( { name: 'Test Group' } )
@@ -103,7 +103,7 @@ describe( 'Group API', function () {
 	} );
 
 	it( 'should return a list of groups the user is in', function ( done ) {
-		superagent
+		request
 			.get( testUrl )
 			.set( 'Authorization', 'Bearer ' + bobsToken )
 			.end( function ( e, res ) {
@@ -120,12 +120,12 @@ describe( 'Group API', function () {
 
 	it( 'should return details of a particular group', function ( done ) {
 		// First get all groups and then details of one
-		superagent
+		request
 			.get( testUrl )
 			.set( 'Authorization', 'Bearer ' + bobsToken )
 			.end( function ( e, res ) {
 				var groupUrl = testUrl + res.body.groups[ 0 ]._id;
-				superagent
+				request
 					.get( groupUrl )
 					.set( 'Authorization', 'Bearer ' + bobsToken )
 					.end( function ( e, res ) {

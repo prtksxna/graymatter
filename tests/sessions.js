@@ -1,6 +1,6 @@
 require( '../models/user' );
 
-var superagent = require( 'superagent' ),
+var request = require( 'superagent' ),
 	expect = require( 'expect.js' ),
 	mongoose = require( 'mongoose' ),
 	User = mongoose.model( 'User' ),
@@ -23,7 +23,7 @@ describe( 'Sessions API', function () {
 	} );
 
 	it( 'should let the user login', function ( done ) {
-		superagent
+		request
 			.post( testUrl + 'new' )
 			.send( { email: 'bob@example.com', password: '12345678' } )
 			.end( function ( e, res ) {
@@ -36,14 +36,14 @@ describe( 'Sessions API', function () {
 	it( 'should check that different sessions have different tokens', function ( done ) {
 		var firstLogin, secondLogin;
 
-		firstLogin = superagent
+		firstLogin = request
 			.post( testUrl + 'new' )
 			.send( { email: 'bob@example.com', password: '12345678' } )
 			.then( function ( res ) {
 				return res.body.token;
 			} );
 
-		secondLogin = superagent
+		secondLogin = request
 			.post( testUrl + 'new' )
 			.send( { email: 'bob@example.com', password: '12345678' } )
 			.then( function ( res ) {
@@ -60,7 +60,7 @@ describe( 'Sessions API', function () {
 	describe( 'Login Validations', function () {
 
 		it( '400: should not let a user login without email', function ( done ) {
-			superagent
+			request
 				.post( testUrl + 'new' )
 				.send( { password: 12345678 } )
 				.end( function ( e, res ) {
@@ -72,7 +72,7 @@ describe( 'Sessions API', function () {
 		} );
 
 		it( '400: should not let a user login without password', function ( done ) {
-			superagent
+			request
 				.post( testUrl + 'new' )
 				.send( { email: 'bob@example.com' } )
 				.end( function ( e, res ) {
@@ -84,7 +84,7 @@ describe( 'Sessions API', function () {
 		} );
 
 		it( '401: should not let a user login if it doesn\'t exist', function ( done ) {
-			superagent
+			request
 				.post( testUrl + 'new' )
 				.send( { email: 'notbob@example.com', password: 12345678 } )
 				.end( function ( e, res ) {
@@ -96,7 +96,7 @@ describe( 'Sessions API', function () {
 		} );
 
 		it( '401: should not let the user login with an incorrect password', function ( done ) {
-			superagent
+			request
 				.post( testUrl + 'new' )
 				.send( { email: 'bob@example.com', password: 123456789 } )
 				.end( function ( e, res ) {
@@ -112,7 +112,7 @@ describe( 'Sessions API', function () {
 
 		it( 'should redirect the user to Google', function ( done ) {
 			this.timeout( 10000 ); // Waiting for redirects
-			superagent
+			request
 				.get( testUrl + 'google' )
 				.end( function ( e, res ) {
 					expect( res.status ).to.be( 200 );

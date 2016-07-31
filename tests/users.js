@@ -1,7 +1,7 @@
 require( '../models/user' );
 
 var
-	superagent = require( 'superagent' ),
+	request = require( 'superagent' ),
 	expect = require( 'expect.js' ),
 	mongoose = require( 'mongoose' ),
 	User = mongoose.model( 'User' ),
@@ -23,7 +23,7 @@ describe( 'Users API', function () {
 	describe( 'Registration', function () {
 
 		it( 'should let a user register with email and password', function ( done ) {
-			superagent
+			request
 				.post( testUrl + 'new' )
 				.send( { email: 'bob@example.com', password: '12345678' } )
 				.end( function ( e, res ) {
@@ -37,7 +37,7 @@ describe( 'Users API', function () {
 	describe( 'Registering validations', function () {
 
 		it( 'should return an error (400/bad request) if there is no email', function ( done ) {
-			superagent
+			request
 				.post( testUrl + 'new' )
 				.send( { password: '12345678' } )
 				.end( function ( e, res ) {
@@ -49,7 +49,7 @@ describe( 'Users API', function () {
 		} );
 
 		it( 'should return an error (400/bad request) if there is no password', function ( done ) {
-			superagent
+			request
 				.post( testUrl + 'new' )
 				.send( { email: 'bob@example.com' } )
 				.end( function ( e, res ) {
@@ -61,7 +61,7 @@ describe( 'Users API', function () {
 		} );
 
 		it( 'should not accept an invalid email address', function ( done ) {
-			superagent
+			request
 				.post( testUrl + 'new' )
 				.send( { email: 'bobexample.com', password: '12345678' } )
 				.end( function ( e, res ) {
@@ -75,7 +75,7 @@ describe( 'Users API', function () {
 		} );
 
 		it( 'should not accept a password smaller than 8 characters', function ( done ) {
-			superagent
+			request
 				.post( testUrl + 'new' )
 				.send( { email: 'bob@example.com', password: '123456' } )
 				.end( function ( e, res ) {
@@ -90,7 +90,7 @@ describe( 'Users API', function () {
 
 		it( 'should check if the email id is unique', function ( done ) {
 			// Retrying with the same email ID as used in the previous test set
-			superagent
+			request
 				.post( testUrl + 'new' )
 				.send( { email: 'bob@example.com', password: '12345678' } )
 				.end( function ( e, res ) {
@@ -109,7 +109,7 @@ describe( 'Users API', function () {
 
 		before( function ( done ) {
 			// Login and get a token
-			superagent
+			request
 				.post( config.dev.api + 'sessions/new' )
 				.send( { email: 'bob@example.com', password: '12345678' } )
 				.end( function ( e, res ) {
@@ -119,7 +119,7 @@ describe( 'Users API', function () {
 		} );
 
 		it( 'should be able to return a user profile', function ( done ) {
-			superagent
+			request
 				.get( testUrl )
 				.set( 'Authorization', 'Bearer ' + token )
 				.end( function ( e, res ) {
@@ -130,7 +130,7 @@ describe( 'Users API', function () {
 		} );
 
 		it( 'should be able to update name in the user profile', function ( done ) {
-			superagent
+			request
 				.post( testUrl )
 				.set( 'Authorization', 'Bearer ' + token )
 				.send( { name: 'Bob' } )
