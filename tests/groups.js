@@ -155,19 +155,21 @@ describe( 'Group API', function () {
 	it( 'should not let admin remove themselves (they need to un-admin first)' );
 
 	after( function ( done ) {
+		var removeBob, removeAlice;
+
 		// TODO: Remove all the groups that were created
 		console.log( '  > Looking for test user - bob@example.com' );
-		User.remove( { email: 'bob@example.com' }, function ( err, user ) {
+		removeBob = User.remove( { email: 'bob@example.com' } ).then( function ( user ) {
 			console.log( '  > Removed test user - bob@example.com' );
+		} );
 
-			console.log( '  > Looking for test user - alice@example.com' );
-			User.remove( { email: 'alice@example.com' }, function ( err, user ) {
-				console.log( '  > Removed test user - alice@example.com' );
+		console.log( '  > Looking for test user - alice@example.com' );
+		removeAlice = User.remove( { email: 'alice@example.com' } ).then( function ( user ) {
+			console.log( '  > Removed test user - alice@example.com' );
+		} );
 
-				mongoose.disconnect( function () {
-					done();
-				} );
-			} );
+		Promise.all( [ removeBob, removeAlice ] ).then( function () {
+			mongoose.disconnect().then( done );
 		} );
 	} );
 
