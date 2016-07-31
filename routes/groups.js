@@ -42,4 +42,16 @@ router.get( '/:id', auth, function ( req, res, next ) {
 	} );
 } );
 
+router.post( '/:id/add_member', auth, function ( req, res, next ) {
+	Group.findById( req.params.id ).exec().then( function ( group ) {
+		if ( group.hasAdmin( req.payload._id ) ) {
+			group.addMember( req.body.userId ).then( function ( group ) {
+				return res.status( 200 ).json( group );
+			} );
+		}
+	} ).then( null, function ( err ) {
+		return res.status( 404 ).json( err );
+	} );
+} );
+
 module.exports = router;

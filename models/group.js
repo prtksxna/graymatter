@@ -26,4 +26,14 @@ GroupSchema.statics.findByUser = function ( userId ) {
 	} ).exec();
 };
 
+GroupSchema.methods.addMember = function ( userId ) {
+	this.members.push( userId );
+	return this.save();
+};
+
+GroupSchema.methods.hasAdmin = function ( userId ) {
+	// TODO: Implement this
+	return true;
+};
+
 Group = mongoose.model( 'Group', GroupSchema );

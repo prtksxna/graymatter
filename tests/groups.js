@@ -11,7 +11,7 @@ var
 	testUrl = config.dev.api + 'groups/';
 
 describe( 'Group API', function () {
-	var bobsToken, alicesToken;
+	var bobsId, alicesId, bobsToken, alicesToken, testGroupId;
 
 	before( function ( done ) {
 		mongoose.connect( config.dev.db ).then( function () {
@@ -21,8 +21,9 @@ describe( 'Group API', function () {
 			bob = new User();
 			bob.email = 'bob@example.com';
 			bob.setPassword( '12345678' );
-			saveBob = bob.save().then( function () {
+			saveBob = bob.save().then( function ( user ) {
 				console.log( '  > Created bob!' );
+				bobsId = user.id;
 
 				console.log( '  > Logging in bob@example.com' );
 				return request
@@ -37,8 +38,9 @@ describe( 'Group API', function () {
 			alice = new User();
 			alice.email = 'alice@example.com';
 			alice.setPassword( '12345678' );
-			saveAlice = alice.save().then( function () {
+			saveAlice = alice.save().then( function ( user ) {
 				console.log( '  > Created alice!' );
+				alicesId = user.id;
 
 				console.log( '  > Logging in alice@example.com' );
 				return request
@@ -124,9 +126,9 @@ describe( 'Group API', function () {
 			.get( testUrl )
 			.set( 'Authorization', 'Bearer ' + bobsToken )
 			.end( function ( e, res ) {
-				var groupUrl = testUrl + res.body.groups[ 0 ]._id;
+				testGroupId = res.body.groups[ 0 ]._id;
 				request
-					.get( groupUrl )
+					.get( testUrl + testGroupId )
 					.set( 'Authorization', 'Bearer ' + bobsToken )
 					.end( function ( e, res ) {
 						var group = res.body;
@@ -143,8 +145,19 @@ describe( 'Group API', function () {
 
 	} );
 
+	it( 'should let user add members', function ( done ) {
+		request
+			.post( testUrl + testGroupId + '/add_member' )
+			.set( 'Authorization', 'Bearer ' + bobsToken )
+			.send( { userId: alicesId } )
+			.end( function ( e, res ) {
+				expect( res.status ).to.be( 200 );
+				expect( res.body.members ).to.contain( alicesId );
+				done();
+			} );
+	} );
+
 	it( 'should only return details of groups that the user is part of' );
-	it( 'should let user add members' );
 	it( 'should check if the returned list has groups both member and admin of' );
 	it( 'should let members remove themselves from a group' );
 	it( 'should let admins make members admin' );
