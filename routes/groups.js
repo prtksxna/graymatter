@@ -34,7 +34,7 @@ router.get( '/', function ( req, res, next ) {
 	Group.findByUser( req.payload._id ).then( function ( groups ) {
 		return res.json( { groups: groups } );
 	} ).then( null, function ( err ) {
-		return res.status( 500 ).json( err );
+		return next( err );
 	} );
 } );
 
@@ -46,7 +46,7 @@ router.get( '/:id', function ( req, res, next ) {
 			return res.status( 404 ).send();
 		}
 	} ).then( null, function ( err ) {
-		return res.status( 500 ).json( err );
+		return next( err );
 	} );
 } );
 

@@ -119,7 +119,7 @@ router.post( '/', auth, function ( req, res, next ) {
 			name: user.name
 		} );
 	} ).then( null, function ( err ) {
-		return res.status( 500 ).json( err );
+		return next( err );
 	} );
 } );
 
