@@ -59,15 +59,17 @@ module.exports = function ( grunt ) {
 					'routes/index.js',
 					'routes/users.js',
 					'routes/sessions.js',
-					'routes/groups.js',
-					'Gruntfile.js'
+					'routes/groups.js'
 				],
 				dest: 'docs/server.js'
 			}
 		},
 		docco: {
 			server: {
-				src: 'docs/server.js',
+				src: [
+					'docs/server.js',
+					'Gruntfile.js'
+				],
 				options: {
 					output: 'docs/'
 				}
