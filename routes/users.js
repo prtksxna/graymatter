@@ -119,9 +119,7 @@ router.post( '/', auth, function ( req, res, next ) {
 			email: user.email,
 			name: user.name
 		} );
-	} ).then( null, function ( err ) {
-		return next( err );
-	} );
+	} ).then( null, next );
 } );
 
 module.exports = router;

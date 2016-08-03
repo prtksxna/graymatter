@@ -53,6 +53,7 @@ router.post( '/', function ( req, res, next ) {
 	group.save().then( function ( group ) {
 		return res.status( 201 ).json( group );
 	} ).then( null, function ( err ) {
+		// This is called if the validations fail
 		return res.status( 400 ).json( err );
 	} );
 } );
@@ -60,9 +61,7 @@ router.post( '/', function ( req, res, next ) {
 router.get( '/', function ( req, res, next ) {
 	Group.findByUser( req.payload._id ).then( function ( groups ) {
 		return res.json( { groups: groups } );
-	} ).then( null, function ( err ) {
-		return next( err );
-	} );
+	} ).then( null, next );
 } );
 
 router.get( '/:id', function ( req, res, next ) {
