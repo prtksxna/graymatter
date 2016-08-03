@@ -3,7 +3,6 @@ require( './config/passport' );
 
 var
 	express = require( 'express' ),
-	path = require( 'path' ),
 	logger = require( 'morgan' ),
 	bodyParser = require( 'body-parser' ),
 	mongoose = require( 'mongoose' ),
