@@ -1,3 +1,4 @@
+// ## Sessions route
 // *Attached to `/users`*
 
 var
@@ -7,7 +8,7 @@ var
 	passport = require( 'passport' ),
 	User = mongoose.model( 'User' );
 
-// ## New Sessions
+// ### New Sessions
 
 // **POST: /sessions/new**
 // ```
@@ -44,8 +45,7 @@ router.post( '/new', function ( req, res, next ) {
 	} )( req, res, next );
 } );
 
-// ## Third party authentication
-
+// ### Third party authentication
 // **GET: /sessions/google**
 
 // This will redirect to the Google permission page and once accepted

@@ -1,4 +1,7 @@
-var UserSchema,
+// ## User schema
+
+var
+	UserSchema,
 	config = require( '../config/config.js' ),
 	mongoose = require( 'mongoose' ),
 	crypto = require( 'crypto' ),
@@ -45,13 +48,13 @@ UserSchema.methods.generateJWT = function () {
 };
 
 UserSchema.path( 'email' ).validate( function ( email ) {
-	// TODO: Check this regular expression
+	// > TODO: Check this regular expression
 	var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 	return emailRegex.test( email );
 }, 'Invalid email' );
 
-// TODO: Add a decorator to remove this user as admin and member from
-// old groups, and delete those groups that contain
-// only this user
+// > TODO: Add a decorator to remove this user as admin and member from
+// > old groups, and delete those groups that contain
+// > only this user
 
 mongoose.model( 'User', UserSchema );

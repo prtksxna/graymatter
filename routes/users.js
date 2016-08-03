@@ -1,3 +1,4 @@
+// ## Users route
 // *Attached to `/users`*
 
 var
@@ -13,7 +14,7 @@ var
 		userProperty: 'payload'
 	} );
 
-// ## New User
+// ### New User
 // **POST: /users/new**
 // ```
 // {
@@ -85,7 +86,7 @@ router.post( '/new', function ( req, res, next ) {
 	} );
 } );
 
-// ## Get User Profile
+// ### Get User Profile
 // **GET: /users/**
 // ```
 // Authorization: Bearer [token]
@@ -98,7 +99,7 @@ router.get( '/', auth, function ( req, res, next ) {
 		} );
 } );
 
-// ## Update User Profile
+// ### Update User Profile
 // **POST: /users/**
 // ```
 // Authorization: Bearer [token]

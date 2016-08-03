@@ -1,4 +1,7 @@
-var passport = require( 'passport' ),
+// ## Passport Config
+// > TODO: This needs documentation
+var
+	passport = require( 'passport' ),
 	LocalStrategy = require( 'passport-local' ).Strategy,
 	GoogleStrategy = require( 'passport-google-oauth' ).OAuth2Strategy,
 	mongoose = require( 'mongoose' ),
@@ -31,7 +34,7 @@ passport.use( new LocalStrategy(
 
 passport.use( new GoogleStrategy( config.googleAuth,
 	function ( accessToken, refreshToken, profile, done ) {
-		// TODO: Why are we deferring this execution?
+		// > TODO: Why are we deferring this execution?
 		process.nextTick( function () {
 			// Find the user using the Google ID.
 			User.findOne( { googleId: profile.id }, function ( err, user ) {
@@ -52,6 +55,7 @@ passport.use( new GoogleStrategy( config.googleAuth,
 	}
 ) );
 
+// > TODO: What is this?
 passport.serializeUser( function ( user, done ) {
 	done( null, user );
 } );

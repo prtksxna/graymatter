@@ -1,3 +1,5 @@
+// ## Group schema
+
 var GroupSchema, Group,
 	mongoose = require( 'mongoose' );
 
@@ -6,9 +8,9 @@ GroupSchema = new mongoose.Schema( {
 		type: String,
 		required: true
 	},
-	// TODO: Don't separate the two kinds of members
-	// instead have an added 'role' attribute wich is
-	// an integer that decides their power
+	// > TODO: Don't separate the two kinds of members
+	// > instead have an added 'role' attribute wich is
+	// > an integer that decides their power
 	admins: {
 		type: [ {
 			type: mongoose.Schema.Types.ObjectId,
@@ -49,7 +51,7 @@ GroupSchema.methods.addMember = function ( userId ) {
 };
 
 GroupSchema.methods.hasAdmin = function ( userId ) {
-	// TODO: Implement this
+	// > TODO: Implement this
 	return true;
 };
 

@@ -1,3 +1,4 @@
+// ## Groups route
 // *Attached to `/groups`*
 require( '../models/group' );
 
@@ -17,6 +18,7 @@ var
 // by an authenticated user.
 router.use( auth );
 
+// > TODO: Document everything here
 router.post( '/', function ( req, res, next ) {
 	var group = new Group( {
 		name: req.body.name,
@@ -39,6 +41,7 @@ router.get( '/', function ( req, res, next ) {
 } );
 
 router.get( '/:id', function ( req, res, next ) {
+	// > TODO: The findById method should be a middleware method
 	Group.findById( req.params.id ).exec().then( function ( group ) {
 		if ( group.canBeSeenBy( req.payload._id ) ) {
 			return res.json( group );
