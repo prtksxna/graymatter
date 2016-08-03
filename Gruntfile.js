@@ -1,5 +1,7 @@
 module.exports = function ( grunt ) {
 
+	grunt.loadNpmTasks( 'grunt-contrib-concat' );
+	grunt.loadNpmTasks( 'grunt-contrib-clean' );
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 	grunt.loadNpmTasks( 'grunt-jscs' );
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
@@ -39,13 +41,34 @@ module.exports = function ( grunt ) {
 				src: 'tests/**/*.js'
 			}
 		},
+		// This is to generate single page docs
+		concat: {
+			server: {
+				src: [
+					'app.js',
+					'config.js',
+					'passport.js',
+					'models/user.js',
+					'models/group.js',
+					'routes/index.js',
+					'routes/users.js',
+					'routes/sessions.js',
+					'routes/groups.js',
+					'Gruntfile.js'
+				],
+				dest: 'docs/server.js'
+			}
+		},
 		docco: {
-			api: {
-				src: 'routes/**/*.js',
+			server: {
+				src: 'docs/server.js',
 				options: {
 					output: 'docs/'
 				}
 			}
+		},
+		clean: {
+			server: [ 'docs/server.js' ]
 		},
 		watch: {
 			options: {
@@ -54,7 +77,7 @@ module.exports = function ( grunt ) {
 				// interval: 5007
 			},
 			files: '**/*.js',
-			tasks: [ 'test', 'docco:api' ]
+			tasks: [ 'test', 'docco:server' ]
 		},
 		githooks: {
 			all: {
@@ -63,6 +86,7 @@ module.exports = function ( grunt ) {
 		}
 	} );
 
+	grunt.registerTask( 'docs', [ 'concat:server', 'docco:server', 'clean:server' ] );
 	grunt.registerTask( 'test', [ 'express:dev', 'mochaTest', 'jshint:all', 'jscs:all' ] );
 
 };
