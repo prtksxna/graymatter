@@ -77,7 +77,7 @@ module.exports = function ( grunt ) {
 				// interval: 5007
 			},
 			files: '**/*.js',
-			tasks: [ 'test', 'docco:server' ]
+			tasks: [ 'test', 'docs' ]
 		},
 		githooks: {
 			all: {
