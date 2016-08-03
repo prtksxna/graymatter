@@ -46,8 +46,9 @@ module.exports = function ( grunt ) {
 			server: {
 				src: [
 					'app.js',
-					'config.js',
-					'passport.js',
+					'config/config.js',
+					'models/db.js',
+					'config/passport.js',
 					'models/user.js',
 					'models/group.js',
 					'routes/index.js',
