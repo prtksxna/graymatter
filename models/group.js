@@ -4,6 +4,7 @@ var GroupSchema, Group,
 	mongoose = require( 'mongoose' );
 
 GroupSchema = new mongoose.Schema( {
+	// > TODO: This should also have a descripton and color.
 	name: {
 		type: String,
 		required: true
