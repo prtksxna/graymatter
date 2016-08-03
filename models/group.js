@@ -6,6 +6,9 @@ GroupSchema = new mongoose.Schema( {
 		type: String,
 		required: true
 	},
+	// TODO: Don't separate the two kinds of members
+	// instead have an added 'role' attribute wich is
+	// an integer that decides their power
 	admins: {
 		type: [ {
 			type: mongoose.Schema.Types.ObjectId,

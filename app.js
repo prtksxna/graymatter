@@ -25,6 +25,7 @@ app.use( bodyParser.json() );
 app.use( bodyParser.urlencoded( { extended: false } ) );
 app.use( passport.initialize() );
 
+// TODO: Clean this up, move all express stuff to routes directory
 app.use( '/', routes );
 app.use( '/users', users );
 app.use( '/sessions', sessions );
