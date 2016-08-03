@@ -18,6 +18,19 @@ var
 // by an authenticated user.
 router.use( auth );
 
+// Middleware function that gets the group by its id and returns
+// it only if the currently logged in user is a member of it.
+router.use( '/:id*', function ( req, res, next ) {
+	Group.findById( req.params.id ).exec().then( function ( group ) {
+		if ( group.canBeSeenBy( req.payload._id ) ) {
+			req.group = group;
+			next();
+		} else {
+			return res.status( 404 ).send();
+		}
+	} ).then( null, next );
+} );
+
 // > TODO: Document everything here
 router.post( '/', function ( req, res, next ) {
 	var group = new Group( {
@@ -41,28 +54,15 @@ router.get( '/', function ( req, res, next ) {
 } );
 
 router.get( '/:id', function ( req, res, next ) {
-	// > TODO: The findById method should be a middleware method
-	Group.findById( req.params.id ).exec().then( function ( group ) {
-		if ( group.canBeSeenBy( req.payload._id ) ) {
-			return res.json( group );
-		} else {
-			return res.status( 404 ).send();
-		}
-	} ).then( null, function ( err ) {
-		return next( err );
-	} );
+	return res.json( req.group );
 } );
 
 router.post( '/:id/add_member', function ( req, res, next ) {
-	Group.findById( req.params.id ).exec().then( function ( group ) {
-		if ( group.hasAdmin( req.payload._id ) ) {
-			group.addMember( req.body.userId ).then( function ( group ) {
-				return res.status( 200 ).json( group );
-			} );
-		}
-	} ).then( null, function ( err ) {
-		return res.status( 404 ).json( err );
-	} );
+	if ( req.group.hasAdmin( req.payload._id ) ) {
+		req.group.addMember( req.body.userId ).then( function ( group ) {
+			return res.status( 200 ).json( group );
+		} );
+	}
 } );
 
 module.exports = router;
