@@ -43,7 +43,12 @@ isAdmin = function ( req, res, next ) {
 	}
 };
 
-// > TODO: Document everything here
+// ### Add group
+// **POST: /groups/**
+// ```
+// Authorization: Bearer [token]
+// { name: 'My Group' }
+// ```
 router.post( '/', function ( req, res, next ) {
 	var group = new Group( {
 		name: req.body.name,
@@ -58,16 +63,32 @@ router.post( '/', function ( req, res, next ) {
 	} );
 } );
 
+// ### Get Groups
+// **GET: /groups/**
+// ```
+// Authorization: Bearer [token]
+// ```
 router.get( '/', function ( req, res, next ) {
 	Group.findByUser( req.payload._id ).then( function ( groups ) {
 		return res.json( { groups: groups } );
 	} ).then( null, next );
 } );
 
+// ### Get Group
+// **GET: /groups/:id**
+// ```
+// Authorization: Bearer [token]
+// ```
 router.get( '/:id', function ( req, res, next ) {
 	return res.json( req.group );
 } );
 
+// ### Add member
+// **GET: /groups/:id/add_member**
+// ```
+// Authorization: Bearer [token]
+// { userId: '739148625e2e05' }
+// ```
 router.post( '/:id/add_member', isAdmin, function ( req, res, next ) {
 	req.group.addMember( req.body.userId ).then( function ( group ) {
 		return res.status( 200 ).json( group );
