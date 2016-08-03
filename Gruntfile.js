@@ -43,6 +43,11 @@ module.exports = function ( grunt ) {
 		},
 		// This is to generate single page docs
 		concat: {
+			options: {
+				// This creates a nice horizontal rule between files
+				// and leaves enough space for readability.
+				separator: '// *** \n\n\n\n\n\n\n'
+			},
 			server: {
 				src: [
 					'app.js',
