@@ -3,6 +3,7 @@
 require( '../models/group' );
 
 var
+	isAdmin,
 	config = require( '../config/config.js' ),
 	express = require( 'express' ),
 	router = express.Router(),
@@ -31,6 +32,17 @@ router.use( '/:id*', function ( req, res, next ) {
 	} ).then( null, next );
 } );
 
+// Middleware function that checks if the currently logged in
+// user is an admin. This is not applied to the router as a
+// whole, but is included on the API endpoints where necessary.
+isAdmin = function ( req, res, next ) {
+	if ( !req.group.hasAdmin( req.payload._id ) ) {
+		return res.status( 403 ).send();
+	} else {
+		next();
+	}
+};
+
 // > TODO: Document everything here
 router.post( '/', function ( req, res, next ) {
 	var group = new Group( {
@@ -57,12 +69,10 @@ router.get( '/:id', function ( req, res, next ) {
 	return res.json( req.group );
 } );
 
-router.post( '/:id/add_member', function ( req, res, next ) {
-	if ( req.group.hasAdmin( req.payload._id ) ) {
-		req.group.addMember( req.body.userId ).then( function ( group ) {
-			return res.status( 200 ).json( group );
-		} );
-	}
+router.post( '/:id/add_member', isAdmin, function ( req, res, next ) {
+	req.group.addMember( req.body.userId ).then( function ( group ) {
+		return res.status( 200 ).json( group );
+	} );
 } );
 
 module.exports = router;

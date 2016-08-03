@@ -182,6 +182,7 @@ describe( 'Group API', function () {
 
 	it( 'should only return details of groups that the user is part of' );
 	it( 'should check if the returned list has groups both member and admin of' );
+	it( 'should not let members add new members' );
 	it( 'should let members remove themselves from a group' );
 	it( 'should let admins make members admin' );
 	it( 'should let admins remove members as admin' );

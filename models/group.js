@@ -50,6 +50,7 @@ GroupSchema.methods.addMember = function ( userId ) {
 	return this.save();
 };
 
+// > TODO: Rename this to `isAdmin`
 GroupSchema.methods.hasAdmin = function ( userId ) {
 	// > TODO: Implement this
 	return true;
