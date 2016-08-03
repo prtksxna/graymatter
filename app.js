@@ -7,7 +7,7 @@ var
 	bodyParser = require( 'body-parser' ),
 	mongoose = require( './models/db.js' ),
 	passport = require( 'passport' ),
-	routes = require( './routes/index' ),
+	index = require( './routes/index' ),
 	users = require( './routes/users' ),
 	sessions = require( './routes/sessions' ),
 	groups = require( './routes/groups' ),
@@ -19,7 +19,7 @@ app.use( bodyParser.urlencoded( { extended: false } ) );
 app.use( passport.initialize() );
 
 // TODO: Clean this up, move all express stuff to routes directory
-app.use( '/', routes );
+app.use( '/', index );
 app.use( '/users', users );
 app.use( '/sessions', sessions );
 app.use( '/groups', groups );
