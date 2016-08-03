@@ -4,7 +4,7 @@ require( '../models/user' );
 var
 	request = require( 'superagent' ),
 	expect = require( 'expect.js' ),
-	mongoose = require( 'mongoose' ),
+	mongoose = require( '../models/db' ),
 	Group = mongoose.model( 'Group' ),
 	User = mongoose.model( 'User' ),
 	config = require( '../config/config.js' ),
@@ -14,48 +14,46 @@ describe( 'Group API', function () {
 	var bobsId, alicesId, bobsToken, alicesToken, testGroupId;
 
 	before( function ( done ) {
-		mongoose.connect( config.dev.db ).then( function () {
-			var bob, saveBob, loginBob, alice, saveAlice, loginAlice;
+		var bob, saveBob, loginBob, alice, saveAlice, loginAlice;
 
-			console.log( '  > Creating first test user - bob@example.com' );
-			bob = new User();
-			bob.email = 'bob@example.com';
-			bob.setPassword( '12345678' );
-			saveBob = bob.save().then( function ( user ) {
-				console.log( '  > Created bob!' );
-				bobsId = user.id;
+		console.log( '  > Creating first test user - bob@example.com' );
+		bob = new User();
+		bob.email = 'bob@example.com';
+		bob.setPassword( '12345678' );
+		saveBob = bob.save().then( function ( user ) {
+			console.log( '  > Created bob!' );
+			bobsId = user.id;
 
-				console.log( '  > Logging in bob@example.com' );
-				return request
-					.post( config.dev.api + 'sessions/new' )
-					.send( { email: 'bob@example.com', password: '12345678' } )
-					.then( function ( res ) {
-						return res.body.token;
-					} );
-			} );
+			console.log( '  > Logging in bob@example.com' );
+			return request
+				.post( config.dev.api + 'sessions/new' )
+				.send( { email: 'bob@example.com', password: '12345678' } )
+				.then( function ( res ) {
+					return res.body.token;
+				} );
+		} );
 
-			console.log( '  > Creating second test user - alice@example.com' );
-			alice = new User();
-			alice.email = 'alice@example.com';
-			alice.setPassword( '12345678' );
-			saveAlice = alice.save().then( function ( user ) {
-				console.log( '  > Created alice!' );
-				alicesId = user.id;
+		console.log( '  > Creating second test user - alice@example.com' );
+		alice = new User();
+		alice.email = 'alice@example.com';
+		alice.setPassword( '12345678' );
+		saveAlice = alice.save().then( function ( user ) {
+			console.log( '  > Created alice!' );
+			alicesId = user.id;
 
-				console.log( '  > Logging in alice@example.com' );
-				return request
-					.post( config.dev.api + 'sessions/new' )
-					.send( { email: 'alice@example.com', password: '12345678' } )
-					.then( function ( res ) {
-						return res.body.token;
-					} );
-			} );
+			console.log( '  > Logging in alice@example.com' );
+			return request
+				.post( config.dev.api + 'sessions/new' )
+				.send( { email: 'alice@example.com', password: '12345678' } )
+				.then( function ( res ) {
+					return res.body.token;
+				} );
+		} );
 
-			Promise.all( [ saveBob, saveAlice ] ).then( function ( tokens ) {
-				bobsToken = tokens[ 0 ];
-				alicesToken = tokens[ 1 ];
-				done();
-			} );
+		Promise.all( [ saveBob, saveAlice ] ).then( function ( tokens ) {
+			bobsToken = tokens[ 0 ];
+			alicesToken = tokens[ 1 ];
+			done();
 		} );
 	} );
 

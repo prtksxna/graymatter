@@ -5,19 +5,13 @@ var
 	express = require( 'express' ),
 	logger = require( 'morgan' ),
 	bodyParser = require( 'body-parser' ),
-	mongoose = require( 'mongoose' ),
+	mongoose = require( './models/db.js' ),
 	passport = require( 'passport' ),
 	routes = require( './routes/index' ),
 	users = require( './routes/users' ),
 	sessions = require( './routes/sessions' ),
 	groups = require( './routes/groups' ),
-	config = require( './config/config.js' ),
 	app = express();
-
-// TODO: How would we handle this in prod?
-// ANS: Environment variables
-mongoose.connect( config.dev.db );
-mongoose.Promise = global.Promise;
 
 app.use( logger( 'dev' ) );
 app.use( bodyParser.json() );

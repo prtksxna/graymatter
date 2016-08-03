@@ -2,7 +2,7 @@ require( '../models/user' );
 
 var request = require( 'superagent' ),
 	expect = require( 'expect.js' ),
-	mongoose = require( 'mongoose' ),
+	mongoose = require( '../models/db.js' ),
 	User = mongoose.model( 'User' ),
 	config = require( '../config/config.js' ),
 	testUrl = config.dev.api + 'sessions/';
