@@ -13,7 +13,11 @@ var
 		userProperty: 'payload'
 	} );
 
-router.post( '/', auth, function ( req, res, next ) {
+// Everything in this path should be accessed
+// by an authenticated user.
+router.use( auth );
+
+router.post( '/', function ( req, res, next ) {
 	var group = new Group( {
 		name: req.body.name,
 		admins: [ req.payload._id ]
@@ -26,7 +30,7 @@ router.post( '/', auth, function ( req, res, next ) {
 	} );
 } );
 
-router.get( '/', auth, function ( req, res, next ) {
+router.get( '/', function ( req, res, next ) {
 	Group.findByUser( req.payload._id ).then( function ( groups ) {
 		return res.json( { groups: groups } );
 	} ).then( null, function ( err ) {
@@ -34,7 +38,7 @@ router.get( '/', auth, function ( req, res, next ) {
 	} );
 } );
 
-router.get( '/:id', auth, function ( req, res, next ) {
+router.get( '/:id', function ( req, res, next ) {
 	Group.findById( req.params.id ).exec().then( function ( group ) {
 		if ( group.canBeSeenBy( req.payload._id ) ) {
 			return res.json( group );
@@ -46,7 +50,7 @@ router.get( '/:id', auth, function ( req, res, next ) {
 	} );
 } );
 
-router.post( '/:id/add_member', auth, function ( req, res, next ) {
+router.post( '/:id/add_member', function ( req, res, next ) {
 	Group.findById( req.params.id ).exec().then( function ( group ) {
 		if ( group.hasAdmin( req.payload._id ) ) {
 			group.addMember( req.body.userId ).then( function ( group ) {
